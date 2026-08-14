@@ -1189,6 +1189,28 @@
   .rxn-avatar{width:18px;height:18px;border-radius:999px;background:#fff;border:1px solid var(--border-light);}
   .rxn-add{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;border:1.5px dashed var(--border-dark);color:var(--text-secondary);}
   .rxn-add svg{width:13px;height:13px;}
+
+  /* ---------- PAGINATION ---------- */
+  .pgn{display:inline-flex;align-items:center;gap:4px;}
+  .pgn-arrow{width:32px;height:32px;border-radius:8px;border:1px solid var(--border-light);display:inline-flex;align-items:center;justify-content:center;color:var(--text-primary);flex-shrink:0;}
+  .pgn-arrow svg{width:16px;height:16px;}
+  .pgn-arrow.is-disabled{opacity:.4;}
+  .pgn-page{min-width:32px;height:32px;padding:0 6px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text-primary);}
+  .pgn-page.is-current{background:var(--accent-primary);color:#fff;}
+  .pgn-ellipsis{min-width:32px;height:32px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--text-secondary);position:relative;}
+  .pgn-jump{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);width:40px;max-height:150px;overflow:hidden;border:1px solid var(--border-light);border-radius:10px;background:#fff;box-shadow:var(--shadow-lg);z-index:2;display:flex;flex-direction:column;padding:4px;}
+  .pgn-jump span{display:flex;align-items:center;justify-content:center;height:28px;border-radius:6px;font-size:12.5px;font-weight:600;color:var(--text-primary);}
+  .pgn-jump span.is-hint{color:var(--text-secondary);font-weight:700;}
+  .pgn-summary{font-size:13px;color:var(--text-secondary);}
+  .pgn-summary strong{font-weight:600;color:var(--text-primary);}
+  .pgn-simple{display:inline-flex;align-items:center;gap:8px;}
+  .pgn-simple.is-grouped{gap:0;}
+  .pgn-simple.is-grouped .btn{border-radius:0;}
+  .pgn-simple.is-grouped .btn:first-child{border-radius:8px 0 0 8px;}
+  .pgn-simple.is-grouped .btn:last-child{border-radius:0 8px 8px 0;margin-left:-1px;}
+  .pgn-simple.is-grouped .pgn-arrow{border-radius:0;}
+  .pgn-simple.is-grouped .pgn-arrow:first-child{border-radius:8px 0 0 8px;}
+  .pgn-simple.is-grouped .pgn-arrow:last-child{border-radius:0 8px 8px 0;margin-left:-1px;}
 </style>
 </head>
 <body>
@@ -1249,6 +1271,7 @@
       <a class="nav-link" data-target="filter-button" href="#filter-button"><span class="dot"></span>Filter Button</a>
       <a class="nav-link" data-target="header" href="#header"><span class="dot"></span>Header Nav</a>
       <a class="nav-link" data-target="message" href="#message"><span class="dot"></span>Message</a>
+      <a class="nav-link" data-target="pagination" href="#pagination"><span class="dot"></span>Pagination</a>
     </div>
   </nav>
 
@@ -5111,6 +5134,97 @@
         </tbody>
       </table>
       <p style="margin:14px 0 0 0;font-size:12px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> "Comment" (thread com resposta) não virou componente à parte — use `ActivityFeed`/`ActivityItem` (agora com `headerAction` pra um menu "⋯"). O composer "Send Message" reaproveita o `CommentInput`.</p>
+    </section>
+
+    <section class="section" id="pagination">
+      <div class="section-head">
+        <div class="section-kicker">Web App Components</div>
+        <h2>Pagination</h2>
+        <p>Dois padrões: `Pagination` numerada (janela deslizante + setas, com "..." que abre um popover pra pular direto pra uma página escondida) e `SimplePagination` (só Previous/Next — texto ou ícone, agrupado ou separado). `PaginationSummary` é o texto "Showing X to Y of Z results."/"Page X of Y" que aparece do lado.</p>
+      </div>
+
+      <div class="code-ref">
+        <div class="code-ref-label"><svg viewBox="0 0 24 24" fill="none"><path d="M8 4L2 12l6 8M16 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Implementação — pacote ds-tf-ds</div>
+        <pre><span class="tok-kw">import</span> { Pagination, SimplePagination, PaginationSummary } <span class="tok-kw">from</span> <span class="tok-str">"ds-tf-ds"</span>;
+
+<span class="tok-kw">const</span> [page, setPage] = useState(2);
+
+<span class="tok-tag">&lt;Pagination</span> page={page} totalPages={40} onPageChange={setPage} <span class="tok-tag">/&gt;</span>
+
+<span class="tok-tag">&lt;div</span> className=<span class="tok-str">"flex items-center justify-between"</span><span class="tok-tag">&gt;</span>
+  <span class="tok-tag">&lt;SimplePagination</span>
+    onPrevious={() =&gt; setPage((p) =&gt; p - 1)}
+    onNext={() =&gt; setPage((p) =&gt; p + 1)}
+    previousDisabled={page === 1}
+    nextDisabled={page === 40}
+  <span class="tok-tag">/&gt;</span>
+  <span class="tok-tag">&lt;PaginationSummary</span> from={11} to={20} total={40} <span class="tok-tag">/&gt;</span>
+<span class="tok-tag">&lt;/div&gt;</span></pre>
+      </div>
+      <p style="margin:-16px 0 24px 0;font-size:12px;color:var(--text-secondary);">O "..." de `Pagination` é um `@radix-ui/react-popover` (mesma base do `FlyoutMenu`) — clique abre a lista rolável das páginas escondidas. `SimplePagination` reaproveita o `Button` real (`variant="outlined"`) pro modo `variant="text"`; layout do label (esquerda/centro/direita) é 100% composição livre, sem prop de posição fixa.</p>
+
+      <div class="subsection-title">Pagination — numerada</div>
+      <div class="component-demo">
+        <div class="pgn">
+          <span class="pgn-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="pgn-page">1</span>
+          <span class="pgn-page is-current">2</span>
+          <span class="pgn-page">3</span>
+          <span class="pgn-page">4</span>
+          <span class="pgn-page">5</span>
+          <span class="pgn-page">6</span>
+          <span class="pgn-page">7</span>
+          <span class="pgn-page">8</span>
+          <span class="pgn-page">9</span>
+          <span class="pgn-page">10</span>
+          <span class="pgn-ellipsis">···
+            <span class="pgn-jump">
+              <span class="is-hint">11</span><span>12</span><span>13</span><span>14</span>
+            </span>
+          </span>
+          <span class="pgn-page">40</span>
+          <span class="pgn-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </div>
+        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">`siblingCount`/`boundaryCount` controlam quantas páginas ficam visíveis em cada lado antes de colapsar em "..." — o popover mostra exatamente as páginas escondidas naquele trecho (aqui, 11 a 14 se `totalPages=14`; com `totalPages=40` a lista rola até 39).</p>
+      </div>
+
+      <div class="subsection-title">SimplePagination — texto e ícone</div>
+      <div class="component-demo">
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div class="pgn-simple"><button class="btn btn--md btn--outlined">Previous</button><button class="btn btn--md btn--outlined">Next</button></div>
+            <span class="pgn-summary">Showing <strong>1</strong> to <strong>10</strong> of <strong>20</strong> results.</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <span class="pgn-summary">Page <strong>1</strong> of <strong>5</strong></span>
+            <div class="pgn-simple is-grouped"><button class="btn btn--md btn--outlined">Previous</button><button class="btn btn--md btn--outlined">Next</button></div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div class="pgn-simple is-grouped">
+              <span class="pgn-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="pgn-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+            <span class="pgn-summary">Page <strong>1</strong> of <strong>5</strong></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="btn btn--md btn--outlined">Back</button>
+            <button class="btn btn--md btn--primary">Continue</button>
+          </div>
+        </div>
+        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">`grouped` funde os dois botões num controle só (borda compartilhada, sem gap). "Back"/"Continue" não é uma variante do componente — é só dois `Button`s (`outlined` + `primary`) compostos lado a lado, igual qualquer outro par de ações.</p>
+      </div>
+
+      <div class="subsection-title">Especificação</div>
+      <table class="spec-table">
+        <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>Page/arrow size</td><td class="mono">32×32px, radius 8px</td><td></td></tr>
+          <tr><td>Current page</td><td class="mono">bg --color-accent-primary, texto branco</td><td>`aria-current="page"`</td></tr>
+          <tr><td>Ellipsis popover</td><td class="mono">`@radix-ui/react-popover`</td><td>Mesma base do `FlyoutMenu`</td></tr>
+          <tr><td>SimplePagination text</td><td class="mono">`Button` variant="outlined" size="md"</td><td>`variant="text"` (padrão)</td></tr>
+          <tr><td>Grouped</td><td class="mono">borda compartilhada, -1px margin</td><td>`grouped` prop</td></tr>
+        </tbody>
+      </table>
     </section>
 
 

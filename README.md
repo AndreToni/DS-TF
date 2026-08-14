@@ -32,6 +32,7 @@ src/
     NavGroup/        NavGroup.tsx                            index.ts
     NavItem/         NavItem.tsx         NavItem.css         index.ts
     NavMenu/         NavMenu.tsx                             index.ts
+    Pagination/      Pagination.tsx                          index.ts
     PasswordField/   PasswordField.tsx                       index.ts
     PaymentCardField/PaymentCardField.tsx PaymentCardField.css index.ts
     RadioCard/       RadioCard.tsx       RadioCard.css       index.ts
@@ -50,7 +51,7 @@ src/
 tailwind-preset.cjs         ← extends your Tailwind theme with DS-TF tokens
 ```
 
-> **Status:** all 30 components documented in the design-token reference are now implemented as real React components — ActionPanel, the Activity Feed family (ActivityFeed, ActivityItem, ActivityIcon, ActivityAttachment), Alert/RichAlert, Card/CardHeader/CardFooter, BarChart/LineChart, DatePicker, FilterButton, Header/HeaderNavLink, FlyoutMenu/FlyoutMenuContent/FlyoutMenuItem, Message/MessagePhotoGrid, Reaction/ReactionAddButton, Avatar, Badge, Breadcrumbs, Button, Checkbox, Dialog/DialogTrigger/DialogContent, Divider, the Navigation family (NavMenu, NavGroup, NavItem), RadioGroup/RadioGroupItem, RadioCard, Select/SelectItem, SlideOver/SlideOverTrigger/SlideOverContent, Slider, Switch, Tabs, Toggle, Tooltip, the Text Field family (TextField, PasswordField, AmountField, PaymentCardField), and the Text Area family (TextArea, CommentInput).
+> **Status:** all 32 components documented in the design-token reference are now implemented as real React components — ActionPanel, the Activity Feed family (ActivityFeed, ActivityItem, ActivityIcon, ActivityAttachment), Alert/RichAlert, Card/CardHeader/CardFooter, BarChart/LineChart, DatePicker, FilterButton, Header/HeaderNavLink, FlyoutMenu/FlyoutMenuContent/FlyoutMenuItem, Message/MessagePhotoGrid, Reaction/ReactionAddButton, Pagination/SimplePagination/PaginationSummary, Avatar, Badge, Breadcrumbs, Button, Checkbox, Dialog/DialogTrigger/DialogContent, Divider, the Navigation family (NavMenu, NavGroup, NavItem), RadioGroup/RadioGroupItem, RadioCard, Select/SelectItem, SlideOver/SlideOverTrigger/SlideOverContent, Slider, Switch, Tabs, Toggle, Tooltip, the Text Field family (TextField, PasswordField, AmountField, PaymentCardField), and the Text Area family (TextArea, CommentInput).
 
 ## Install
 
@@ -123,6 +124,7 @@ Every component accepts a `className` prop; it's merged with the built-in classe
 | `FlyoutMenu` / `FlyoutMenuTrigger` / `FlyoutMenuContent` / `FlyoutMenuItem` | `@radix-ui/react-popover` | Dismissible dropdown panel (click-outside/Escape, auto-positioned) for the "Fly-Out Navigation" mega-menu — pair `FlyoutMenuTrigger asChild` with a `HeaderNavLink`. `FlyoutMenuContent` has free `children`/`footer` slots (`size="sm" \| "md" \| "lg"`); `FlyoutMenuItem` is the repeated icon+title+description row (optional `isNew` `Badge`). Mega-menu layout (columns, article cards, icon grids) is left entirely to composition — no built-in layout variants |
 | `Message` / `MessagePhotoGrid` | `<div>` | Chat bubble — `align="left"` (received, neutral) \| `"right"` (sent, accent), with free `sender`/`children`/`attachment`/`timestamp`/`reactions` slots. Pass a real `ActivityAttachment` as `attachment` for a file share, or a `MessagePhotoGrid` (`images`, "+N" overlay past `maxVisible`) for a photo share. The "Send Message" composer at the bottom of a thread reuses the existing `CommentInput`, not a new input |
 | `Reaction` / `ReactionAddButton` | native `<button>` | Toggle pill: `avatar` (e.g. `Avatar size="xs"`) + `count`, `selected` for the "you reacted" outlined look. `ReactionAddButton` is the dashed circular trigger for opening your own emoji picker |
+| `Pagination` / `PaginationSummary` / `SimplePagination` | `<nav>`/native `<button>` + `@radix-ui/react-popover` + `Button` | `Pagination` is the numbered page list — windows around `page` via `siblingCount`/`boundaryCount`, and its "..." opens a popover (same Radix Popover as `FlyoutMenu`) listing every hidden page to jump to. `PaginationSummary` renders "Showing X to Y of Z results." or "Page X of Y". `SimplePagination` is just Previous/Next (`variant="text"` reuses the real `Button`, `variant="icon"` is chevron-only; `grouped` merges them into one shared-border control). Label placement relative to the buttons is left to your own layout — no built-in `layout` prop |
 | `Button`   | native `<button>` + `cva`       | 5 variants (primary/secondary/outlined/transparent/destructive) × 3 sizes, `leadIcon`/`tailIcon` slots |
 | `Badge`    | `<span>` + `cva`                | 6 tones × 3 appearances (filled/subtle/outline) × 3 sizes, optional `dot` |
 | `Avatar`   | `@radix-ui/react-avatar`        | Handles the photo → initials → placeholder fallback chain automatically. **SSR note:** the fallback (initials/placeholder) only appears after client hydration — Radix resolves image-load status in an effect. |

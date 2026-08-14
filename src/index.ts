@@ -21,6 +21,7 @@ export * from "./components/Message";
 export * from "./components/NavGroup";
 export * from "./components/NavItem";
 export * from "./components/NavMenu";
+export * from "./components/Pagination";
 export * from "./components/PasswordField";
 export * from "./components/PaymentCardField";
 export * from "./components/RadioCard";
