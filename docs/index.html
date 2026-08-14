@@ -1292,6 +1292,28 @@
   .stc-bg-bars{position:absolute;left:32px;right:0;top:0;bottom:24px;display:flex;align-items:flex-end;gap:10px;border-top:1px dashed var(--border-light);}
   .stc-bg-months{position:absolute;left:32px;right:0;bottom:0;height:20px;display:flex;gap:10px;font-size:10px;color:var(--text-secondary);}
   .stc-bg-months span{flex:1;text-align:center;}
+
+  /* ---------- STEPS ---------- */
+  .stp-circle{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:999px;font-size:13px;font-weight:600;flex-shrink:0;}
+  .stp-circle.is-upcoming{background:var(--bg-medium);color:var(--text-secondary);}
+  .stp-circle.is-active{background:var(--accent-primary);color:#fff;}
+  .stp-circle svg{width:16px;height:16px;}
+  .stp-h{display:flex;align-items:center;}
+  .stp-h-item{display:flex;align-items:center;flex:1;}
+  .stp-h-item:last-child{flex:0 0 auto;}
+  .stp-h-label{margin-left:8px;font-size:13.5px;font-weight:600;color:var(--text-secondary);white-space:nowrap;}
+  .stp-h-label.is-active{color:var(--text-primary);}
+  .stp-h-line{margin:0 12px;height:1px;flex:1;background:var(--border-light);}
+  .stp-h-line.is-done{background:var(--accent-primary);}
+  .stp-v-item{position:relative;display:flex;gap:12px;padding-bottom:22px;}
+  .stp-v-item:last-child{padding-bottom:0;}
+  .stp-v-line{position:absolute;left:15px;top:32px;bottom:0;width:1px;background:var(--border-light);}
+  .stp-v-line.is-done{background:var(--accent-primary);}
+  .stp-v-label{font-size:13.5px;font-weight:600;color:var(--text-primary);padding-top:4px;}
+  .stp-v-label.is-upcoming{color:var(--text-secondary);}
+  .stp-v-desc{margin-top:2px;font-size:11.5px;color:var(--text-secondary);}
+  .stp-bullet-dot{height:8px;width:8px;border-radius:999px;background:var(--border-light);}
+  .stp-bullet-dot.is-active{width:20px;background:var(--accent-primary);}
 </style>
 </head>
 <body>
@@ -1357,6 +1379,7 @@
       <a class="nav-link" data-target="section-header" href="#section-header"><span class="dot"></span>Section Header</a>
       <a class="nav-link" data-target="side-nav" href="#side-nav"><span class="dot"></span>Side Nav</a>
       <a class="nav-link" data-target="stat" href="#stat"><span class="dot"></span>Stat</a>
+      <a class="nav-link" data-target="steps" href="#steps"><span class="dot"></span>Steps</a>
     </div>
   </nav>
 
@@ -5940,6 +5963,125 @@
         </tbody>
       </table>
       <p style="margin:14px 0 0 0;font-size:12px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> eixo Y com valores e grade de fundo não fazem parte do `BarChart` — são composição livre ao redor, como no exemplo do "Large Bar Graph Card" acima.</p>
+    </section>
+
+    <section class="section" id="steps">
+      <div class="section-head">
+        <div class="section-kicker">Web App Components</div>
+        <h2>Steps</h2>
+        <p>Um único componente `Steps`, orientado por dados (`items` + `currentStep`), cobre horizontal, vertical com descrição ("mega item"), e a versão só-círculos ("Steps (Circle)", basta omitir `label`) — em vez de cinco variantes quase-duplicadas. `BulletSteps` é o indicador mínimo "Step X de Y" com uma fileira de bolinhas, pra fluxos de onboarding/carrossel.</p>
+      </div>
+
+      <div class="code-ref">
+        <div class="code-ref-label"><svg viewBox="0 0 24 24" fill="none"><path d="M8 4L2 12l6 8M16 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Implementação — pacote ds-tf-ds</div>
+        <pre><span class="tok-kw">import</span> { Steps, BulletSteps } <span class="tok-kw">from</span> <span class="tok-str">"ds-tf-ds"</span>;
+
+<span class="tok-tag">&lt;Steps</span>
+  currentStep={1}
+  items={[
+    { label: <span class="tok-str">"Create Account"</span> },
+    { label: <span class="tok-str">"Set Up Profile"</span> },
+    { label: <span class="tok-str">"Upload Product"</span> },
+  ]}
+<span class="tok-tag">/&gt;</span>
+
+<span class="tok-tag">&lt;Steps</span>
+  orientation=<span class="tok-str">"vertical"</span>
+  currentStep={1}
+  items={[
+    { label: <span class="tok-str">"Label"</span>, description: <span class="tok-str">"Description"</span> },
+    { label: <span class="tok-str">"Label"</span>, description: <span class="tok-str">"Description"</span> },
+  ]}
+<span class="tok-tag">/&gt;</span>
+
+<span class="tok-tag">&lt;BulletSteps</span> totalSteps={5} currentStep={1} <span class="tok-tag">/&gt;</span></pre>
+      </div>
+      <p style="margin:-16px 0 24px 0;font-size:12px;color:var(--text-secondary);">Status de cada passo (`"complete" | "current" | "upcoming"`) é calculado a partir do índice em relação a `currentStep` — a cor do conector e o ícone de check ficam sempre consistentes conforme `currentStep` muda. Um item pode sobrescrever com seu próprio `status`.</p>
+
+      <div class="subsection-title">Horizontal</div>
+      <div class="component-demo">
+        <div style="display:flex;flex-direction:column;gap:20px;max-width:520px;">
+          <div class="stp-h">
+            <div class="stp-h-item"><span class="stp-circle is-active"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="stp-h-label is-active">Create Account</span></div>
+            <div class="stp-h-line is-done"></div>
+            <div class="stp-h-item"><span class="stp-circle is-active">2</span><span class="stp-h-label is-active">Set Up Profile</span></div>
+            <div class="stp-h-line"></div>
+            <div class="stp-h-item"><span class="stp-circle is-upcoming">3</span><span class="stp-h-label">Upload Product</span></div>
+          </div>
+          <div class="stp-h">
+            <div class="stp-h-item"><span class="stp-circle is-active"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="stp-h-label is-active">Create Account</span></div>
+            <div class="stp-h-line is-done"></div>
+            <div class="stp-h-item"><span class="stp-circle is-active">2</span><span class="stp-h-label is-active">Set Up Profile</span></div>
+            <div class="stp-h-line"></div>
+            <div class="stp-h-item"><span class="stp-circle is-upcoming">3</span><span class="stp-h-label">Upload Product</span></div>
+            <div class="stp-h-line"></div>
+            <div class="stp-h-item"><span class="stp-circle is-upcoming">4</span><span class="stp-h-label">Release</span></div>
+          </div>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">Cada `&lt;Steps&gt;` acima é a mesma chamada, só com mais itens no array — o layout se ajusta sozinho.</p>
+      </div>
+
+      <div class="subsection-title">Vertical — com descrição</div>
+      <div class="component-demo">
+        <div style="max-width:260px;">
+          <div class="stp-v-item">
+            <div class="stp-v-line is-done"></div>
+            <span class="stp-circle is-active"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div><div class="stp-v-label">Label</div><div class="stp-v-desc">Description</div></div>
+          </div>
+          <div class="stp-v-item">
+            <div class="stp-v-line"></div>
+            <span class="stp-circle is-active">2</span>
+            <div><div class="stp-v-label">Label</div><div class="stp-v-desc">Description</div></div>
+          </div>
+          <div class="stp-v-item">
+            <span class="stp-circle is-upcoming">3</span>
+            <div><div class="stp-v-label is-upcoming">Label</div><div class="stp-v-desc">Description</div></div>
+          </div>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">Basta passar `description` em cada item — o layout muda sozinho pra label+descrição empilhados ao lado do círculo.</p>
+      </div>
+
+      <div class="subsection-title">Steps (Circle) — sem labels</div>
+      <div class="component-demo">
+        <div style="display:flex;flex-direction:column;gap:0;max-width:40px;">
+          <div class="stp-v-item" style="padding-bottom:16px;">
+            <div class="stp-v-line is-done"></div>
+            <span class="stp-circle is-active"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </div>
+          <div class="stp-v-item" style="padding-bottom:16px;">
+            <div class="stp-v-line"></div>
+            <span class="stp-circle is-active">2</span>
+          </div>
+          <div class="stp-v-item">
+            <span class="stp-circle is-upcoming">3</span>
+          </div>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">Mesmo `&lt;Steps orientation="vertical"&gt;` de cima — só que nenhum item tem `label`, então nada é renderizado além dos círculos e conectores.</p>
+      </div>
+
+      <div class="subsection-title">Bullet Steps</div>
+      <div class="component-demo">
+        <div style="display:flex;flex-direction:column;gap:14px;">
+          <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:12px;color:var(--text-secondary);">Step 2 of 3</span><div style="display:flex;gap:6px;"><span class="stp-bullet-dot"></span><span class="stp-bullet-dot is-active"></span><span class="stp-bullet-dot"></span></div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:12px;color:var(--text-secondary);">Step 2 of 4</span><div style="display:flex;gap:6px;"><span class="stp-bullet-dot"></span><span class="stp-bullet-dot is-active"></span><span class="stp-bullet-dot"></span><span class="stp-bullet-dot"></span></div></div>
+          <div style="display:flex;align-items:center;gap:12px;"><span style="font-size:12px;color:var(--text-secondary);">Step 2 of 6</span><div style="display:flex;gap:6px;"><span class="stp-bullet-dot"></span><span class="stp-bullet-dot is-active"></span><span class="stp-bullet-dot"></span><span class="stp-bullet-dot"></span><span class="stp-bullet-dot"></span><span class="stp-bullet-dot"></span></div></div>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">`showLabel={false}` esconde o texto "Step X of Y" e deixa só as bolinhas.</p>
+      </div>
+
+      <div class="subsection-title">Especificação</div>
+      <table class="spec-table">
+        <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>Círculo</td><td class="mono">32×32px, radius 999px</td><td></td></tr>
+          <tr><td>Complete/Current</td><td class="mono">bg --color-accent-primary, texto branco</td><td>Check icon quando complete</td></tr>
+          <tr><td>Upcoming</td><td class="mono">bg --color-background-medium, texto secundário</td><td></td></tr>
+          <tr><td>Conector</td><td class="mono">1px — azul se o passo antes está completo, senão cinza</td><td>`hideConnector` remove</td></tr>
+          <tr><td>Bullet dot ativo</td><td class="mono">20×8px, radius 999px</td><td>vs. 8×8px nos inativos</td></tr>
+        </tbody>
+      </table>
+      <p style="margin:14px 0 0 0;font-size:12px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> o átomo "Stepper (M)" (fileira compacta de bolinhas/labels com um chevron à direita, sugerindo um seletor em dropdown) não virou componente — use `BulletSteps` como aproximação mais simples se não precisar do dropdown.</p>
     </section>
 
 
