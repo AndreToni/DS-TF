@@ -28,6 +28,7 @@ export * from "./components/Progress";
 export * from "./components/RadioCard";
 export * from "./components/RadioGroup";
 export * from "./components/Reaction";
+export * from "./components/SectionHeader";
 export * from "./components/Select";
 export * from "./components/Slider";
 export * from "./components/SlideOver";

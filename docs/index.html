@@ -1229,6 +1229,21 @@
   .prg-ring-value{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--text-primary);}
   .prg-ring-wrap{position:relative;}
   .prg-ring-caption{font-size:12px;font-weight:500;color:var(--text-secondary);}
+
+  /* ---------- SECTION HEADER ---------- */
+  .shd{display:flex;flex-direction:column;gap:12px;}
+  .shd-crumb{font-size:12px;color:var(--text-secondary);margin-bottom:2px;display:flex;align-items:center;gap:6px;}
+  .shd-head{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .shd-title-row{display:flex;align-items:flex-start;gap:10px;min-width:0;}
+  .shd-icon{width:32px;height:32px;border-radius:8px;background:var(--accent-primary);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .shd-icon svg{width:16px;height:16px;}
+  .shd-title{font-size:15px;font-weight:600;color:var(--text-primary);}
+  .shd-desc{margin-top:2px;font-size:12.5px;color:var(--text-secondary);}
+  .shd-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;flex-shrink:0;}
+  .shd-menu{width:34px;height:34px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-secondary);flex-shrink:0;}
+  .shd-menu svg{width:15px;height:15px;}
+  .shd-tabs{display:flex;gap:20px;border-top:1px solid var(--border-light);padding-top:10px;}
+  .shd-card{border:1px solid var(--border-light);border-radius:12px;padding:16px;background:#fff;}
 </style>
 </head>
 <body>
@@ -1291,6 +1306,7 @@
       <a class="nav-link" data-target="message" href="#message"><span class="dot"></span>Message</a>
       <a class="nav-link" data-target="pagination" href="#pagination"><span class="dot"></span>Pagination</a>
       <a class="nav-link" data-target="progress" href="#progress"><span class="dot"></span>Progress</a>
+      <a class="nav-link" data-target="section-header" href="#section-header"><span class="dot"></span>Section Header</a>
     </div>
   </nav>
 
@@ -5354,6 +5370,169 @@
           <tr><td>Ring stroke width</td><td class="mono">~8% do diâmetro (mín. 3px)</td><td>`strokeWidth` sobrescreve</td></tr>
           <tr><td>Ring sizes (doc)</td><td class="mono">56 / 88 / 140px</td><td>`size` aceita qualquer número</td></tr>
           <tr><td>Tom</td><td class="mono">accent · neutral · info · success · warning · error</td><td>Mesmo mapa de cor do `BarChart`</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section" id="section-header">
+      <div class="section-head">
+        <div class="section-kicker">Web App Components</div>
+        <h2>Section Header</h2>
+        <p>Cabeçalho de página/seção — explicitamente diferente de um `CardHeader` (a própria referência de design diz isso). Ícone + título + descrição, `breadcrumb` livre acima (um `Breadcrumbs` real), `tabs` livre abaixo (um `Tabs` real, com divisor), e uma linha de `actions` livre à direita que quebra pra baixo em telas estreitas via flex-wrap normal — sem breakpoint dedicado.</p>
+      </div>
+
+      <div class="code-ref">
+        <div class="code-ref-label"><svg viewBox="0 0 24 24" fill="none"><path d="M8 4L2 12l6 8M16 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Implementação — pacote ds-tf-ds</div>
+        <pre><span class="tok-kw">import</span> { SectionHeader, SectionHeaderMenuButton, TextField, FilterButton, Button, Tabs, TabsList, TabsTrigger } <span class="tok-kw">from</span> <span class="tok-str">"ds-tf-ds"</span>;
+
+<span class="tok-tag">&lt;SectionHeader</span>
+  icon={<span class="tok-tag">&lt;DocIcon /&gt;</span>}
+  title=<span class="tok-str">"Section Header"</span>
+  description=<span class="tok-str">"This is a section header. It's different form a card header."</span>
+  actions={<span class="tok-tag">&lt;&gt;</span>
+    <span class="tok-tag">&lt;TextField</span> placeholder=<span class="tok-str">"Search"</span> leading={<span class="tok-tag">&lt;SearchIcon /&gt;</span>} className=<span class="tok-str">"w-48"</span> <span class="tok-tag">/&gt;</span>
+    <span class="tok-tag">&lt;FilterButton</span> variant=<span class="tok-str">"filter"</span><span class="tok-tag">&gt;</span>Filter<span class="tok-tag">&lt;/FilterButton&gt;</span>
+    <span class="tok-tag">&lt;FilterButton</span> variant=<span class="tok-str">"sort"</span><span class="tok-tag">&gt;</span>Sort<span class="tok-tag">&lt;/FilterButton&gt;</span>
+    <span class="tok-tag">&lt;Button</span> size=<span class="tok-str">"sm"</span><span class="tok-tag">&gt;</span>Primary<span class="tok-tag">&lt;/Button&gt;</span>
+    <span class="tok-tag">&lt;SectionHeaderMenuButton /&gt;</span>
+  <span class="tok-tag">&lt;/&gt;</span>}
+<span class="tok-tag">/&gt;</span></pre>
+      </div>
+      <p style="margin:-16px 0 24px 0;font-size:12px;color:var(--text-secondary);">`breadcrumb` e `tabs` são slots livres — passe um `Breadcrumbs`/`Tabs` real, não markup à parte. Nenhum campo novo de busca ou botão de filtro foi criado: são o `TextField` e o `FilterButton` que já existem.</p>
+
+      <div class="subsection-title">Desktop — variantes</div>
+      <div class="component-demo">
+        <div style="display:flex;flex-direction:column;gap:24px;">
+          <div class="shd">
+            <div class="shd-head">
+              <div class="shd-title-row">
+                <span class="shd-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <div><div class="shd-title">Section Header</div><div class="shd-desc">This is a section header. It's different form a card header.</div></div>
+              </div>
+              <div class="shd-actions">
+                <div class="tf-input" style="width:180px;"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="tf-value">Search</span></div>
+                <span class="flt-btn">Filter<svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16l-6 7.5V19l-4 2v-8.5L4 5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <span class="flt-btn">Sort<svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14M8 5l-3 3M8 5l3 3M16 19V5M16 19l-3-3M16 19l3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <button class="btn btn--sm btn--primary">Primary</button>
+                <span class="shd-menu"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="shd">
+            <div class="shd-head">
+              <div class="shd-title-row">
+                <span class="shd-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <div><div class="shd-title">Section Header</div><div class="shd-desc">This is a section header. It's different form a card header.</div></div>
+              </div>
+              <div class="shd-actions">
+                <div class="tf-input" style="width:180px;"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="tf-value">Search</span></div>
+                <span class="flt-btn">Filter<svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16l-6 7.5V19l-4 2v-8.5L4 5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <span class="flt-btn">Sort<svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14M8 5l-3 3M8 5l3 3M16 19V5M16 19l-3-3M16 19l3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <button class="btn btn--sm btn--primary">Primary</button>
+              </div>
+            </div>
+            <div class="shd-tabs">
+              <span class="tab-item is-active">First</span>
+              <span class="tab-item">Second</span>
+              <span class="tab-item">Third</span>
+              <span class="tab-item">Fourth</span>
+              <span class="tab-item">Fifth</span>
+              <span class="tab-item">Sixth</span>
+            </div>
+          </div>
+
+          <div class="shd">
+            <div class="shd-crumb">Item <span style="color:var(--text-hint);">/</span> <span class="badge badge--sm badge--subtle badge--accent">Active</span></div>
+            <div class="shd-head">
+              <div class="shd-title-row">
+                <span class="shd-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <div><div class="shd-title">Section Header</div><div class="shd-desc">This is a section header. It's different form a card header.</div></div>
+              </div>
+              <div class="shd-actions">
+                <div class="tf-input" style="width:180px;"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="tf-value">Search</span></div>
+                <span class="flt-btn">Filter<svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16l-6 7.5V19l-4 2v-8.5L4 5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <span class="flt-btn">Sort<svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14M8 5l-3 3M8 5l3 3M16 19V5M16 19l-3-3M16 19l3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <button class="btn btn--sm btn--primary">Primary</button>
+                <span class="shd-menu"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">`breadcrumb` (um `Breadcrumbs` real) e `tabs` (um `Tabs` real, com divisor de borda) são opcionais e independentes entre si.</p>
+      </div>
+
+      <div class="subsection-title">Mobile — ações quebram naturalmente</div>
+      <div class="component-demo">
+        <div style="width:300px;">
+          <div class="shd">
+            <div class="shd-head" style="flex-direction:column;align-items:stretch;">
+              <div class="shd-title-row">
+                <span class="shd-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <div><div class="shd-title">Section Header</div><div class="shd-desc">This is a section header. It's different form a card header.</div></div>
+                <span class="shd-menu" style="margin-left:auto;"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
+              </div>
+              <div class="shd-actions" style="margin-top:10px;">
+                <div class="tf-input" style="width:100%;"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="tf-value">Search</span></div>
+                <span class="flt-btn">Filter<svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16l-6 7.5V19l-4 2v-8.5L4 5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <span class="flt-btn">Sort<svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14M8 5l-3 3M8 5l3 3M16 19V5M16 19l-3-3M16 19l3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <button class="btn btn--sm btn--primary">Primary</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p style="margin:16px 0 0 0;font-size:12.5px;color:var(--text-secondary);">Nenhum breakpoint próprio — `flex-wrap` no container de `actions` já resolve isso; o exemplo acima só empilha o título/menu num container estreito e deixa a busca ocupar a largura toda por composição (`className="w-full"` no `TextField`).</p>
+      </div>
+
+      <div class="subsection-title">Exemplos montados</div>
+      <div class="component-demo" style="background:transparent;border:none;box-shadow:none;padding:0;">
+        <div style="display:flex;flex-wrap:wrap;gap:20px;">
+          <div class="shd-card" style="width:230px;">
+            <div class="shd-title-row">
+              <span class="shd-icon" style="background:var(--text-primary);"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4 20c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="1.8"/></svg></span>
+              <div class="shd-title">Users</div>
+            </div>
+            <div class="shd-desc" style="margin-left:42px;">This is a section header. It's different from a card header.</div>
+            <div class="tf-input" style="width:100%;margin-top:12px;"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="tf-value">Search</span></div>
+          </div>
+          <div class="shd-card" style="width:230px;">
+            <div class="shd-title-row">
+              <span class="shd-icon" style="background:var(--text-primary);"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.8"/></svg></span>
+              <div class="shd-title">Meetings</div>
+            </div>
+            <div class="shd-desc" style="margin-left:42px;">This is a section header. It's different from a card header.</div>
+            <div style="display:flex;gap:8px;margin-top:12px;"><button class="btn btn--sm btn--outlined">Edit</button><button class="btn btn--sm btn--primary">Schedule New</button></div>
+          </div>
+          <div class="shd-card" style="width:230px;">
+            <div class="shd-head" style="align-items:center;">
+              <div class="shd-title-row">
+                <span class="shd-icon" style="background:var(--text-primary);"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
+                <div class="shd-title">Documents</div>
+              </div>
+              <button class="btn btn--sm btn--primary">+ Add New</button>
+            </div>
+            <div class="tf-input" style="width:100%;margin-top:12px;"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="tf-value">Search</span></div>
+          </div>
+          <div class="shd-card" style="width:230px;">
+            <div class="shd-head" style="align-items:center;">
+              <div class="shd-title-row"><span class="shd-icon" style="background:var(--text-primary);"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><div class="shd-title">Simple Header</div></div>
+              <span class="shd-menu"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
+            </div>
+          </div>
+        </div>
+        <p style="margin:16px 0 0 0;font-size:12.5px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> a tabela do exemplo "Team Members" da referência de design é só ilustrativa — não foi pedido (nem criado) um componente `Table`/`DataTable` novo aqui.</p>
+      </div>
+
+      <div class="subsection-title">Especificação</div>
+      <table class="spec-table">
+        <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>Icon chip</td><td class="mono">32×32px, radius 8px</td><td>`icon` prop</td></tr>
+          <tr><td>Título</td><td class="mono">15px, semibold</td><td></td></tr>
+          <tr><td>Descrição</td><td class="mono">12.5px, --color-text-secondary</td><td></td></tr>
+          <tr><td>Tabs divider</td><td class="mono">border-top 1px solid --color-border-light</td><td>`tabs` prop</td></tr>
+          <tr><td>Menu button</td><td class="mono">34×34px, radius 8px</td><td>`SectionHeaderMenuButton`</td></tr>
+          <tr><td>Actions wrap</td><td class="mono">flex-wrap, sem breakpoint fixo</td><td>`actions` prop</td></tr>
         </tbody>
       </table>
     </section>
