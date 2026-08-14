@@ -24,6 +24,7 @@ export * from "./components/NavMenu";
 export * from "./components/Pagination";
 export * from "./components/PasswordField";
 export * from "./components/PaymentCardField";
+export * from "./components/Progress";
 export * from "./components/RadioCard";
 export * from "./components/RadioGroup";
 export * from "./components/Reaction";

@@ -8,7 +8,8 @@ import { cn } from "../../lib/cn";
 
 export type ChartTone = "accent" | "neutral" | "info" | "success" | "warning" | "error";
 
-const barToneClass: Record<ChartTone, string> = {
+/** Exported so other components (e.g. `ProgressBar`/`ProgressRing`) can reuse the exact same tone → color mapping instead of redefining it. */
+export const barToneClass: Record<ChartTone, string> = {
   accent: "bg-accent-primary",
   neutral: "bg-ink-primary",
   info: "bg-info-primary",
@@ -17,7 +18,7 @@ const barToneClass: Record<ChartTone, string> = {
   error: "bg-error-primary",
 };
 
-const lineToneVar: Record<ChartTone, string> = {
+export const lineToneVar: Record<ChartTone, string> = {
   accent: "var(--color-accent-primary)",
   neutral: "var(--color-text-primary)",
   info: "var(--color-info-primary)",
