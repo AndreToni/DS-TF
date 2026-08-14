@@ -30,6 +30,7 @@ export * from "./components/RadioGroup";
 export * from "./components/Reaction";
 export * from "./components/SectionHeader";
 export * from "./components/Select";
+export * from "./components/SidebarSwitcher";
 export * from "./components/Slider";
 export * from "./components/SlideOver";
 export * from "./components/Switch";

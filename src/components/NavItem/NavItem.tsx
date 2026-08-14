@@ -1,5 +1,5 @@
 import type { MouseEventHandler, ReactNode } from "react";
-import { Badge } from "../Badge/Badge";
+import { Badge, type BadgeTone } from "../Badge/Badge";
 import { cn } from "../../lib/cn";
 import "./NavItem.css";
 
@@ -8,6 +8,8 @@ export interface NavItemProps {
   label: ReactNode;
   /** Small count badge on the right (e.g. unread count). */
   count?: number | string;
+  /** Tone for the `count` badge — e.g. `"error"` for an urgent/unread count. @default "neutral" */
+  countTone?: BadgeTone;
   /** Small "New" tag next to the label. */
   isNew?: boolean;
   /** Secondary line under the label — switches to the "mega item" layout (icon top-aligned, description below label). */
@@ -50,6 +52,7 @@ export function NavItem({
   icon,
   label,
   count,
+  countTone = "neutral",
   isNew,
   description,
   selected,
@@ -126,7 +129,7 @@ export function NavItem({
         </span>
         {count != null && (
           <Badge
-            tone="neutral"
+            tone={countTone}
             appearance="subtle"
             size="sm"
             className={cn(

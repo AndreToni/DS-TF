@@ -1244,6 +1244,22 @@
   .shd-menu svg{width:15px;height:15px;}
   .shd-tabs{display:flex;gap:20px;border-top:1px solid var(--border-light);padding-top:10px;}
   .shd-card{border:1px solid var(--border-light);border-radius:12px;padding:16px;background:#fff;}
+
+  /* ---------- SIDEBAR SWITCHER / SIDE NAV ---------- */
+  .sdw-trigger{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid transparent;background:transparent;text-align:left;box-sizing:border-box;}
+  .sdw-trigger:hover{background:var(--bg-medium);}
+  .sdw-trigger.is-selected{border-color:var(--accent-primary);background:#fff;}
+  .sdw-swatch{width:28px;height:28px;border-radius:6px;background:var(--bg-medium);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);}
+  .sdw-swatch svg{width:16px;height:16px;}
+  .sdw-title{font-size:13px;font-weight:600;color:var(--text-primary);}
+  .sdw-subtitle{font-size:11.5px;color:var(--text-secondary);}
+  .sdw-trailing{width:18px;height:18px;color:var(--text-secondary);flex-shrink:0;}
+  .sdw-rail{display:flex;flex-direction:column;align-items:center;gap:4px;width:52px;padding:10px 8px;border:1px solid var(--border-light);border-radius:12px;background:#fff;flex-shrink:0;}
+  .sdw-rail-btn{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);flex-shrink:0;}
+  .sdw-rail-btn svg{width:17px;height:17px;}
+  .sdw-rail-btn.is-selected{background:var(--accent-bg);color:var(--accent-primary);}
+  .sdw-shell{width:240px;border:1px solid var(--border-light);border-radius:14px;background:#fff;padding:10px;display:flex;flex-direction:column;gap:2px;flex-shrink:0;}
+  .sdw-shell-footer{margin-top:auto;padding-top:8px;display:flex;flex-direction:column;gap:2px;}
 </style>
 </head>
 <body>
@@ -1307,6 +1323,7 @@
       <a class="nav-link" data-target="pagination" href="#pagination"><span class="dot"></span>Pagination</a>
       <a class="nav-link" data-target="progress" href="#progress"><span class="dot"></span>Progress</a>
       <a class="nav-link" data-target="section-header" href="#section-header"><span class="dot"></span>Section Header</a>
+      <a class="nav-link" data-target="side-nav" href="#side-nav"><span class="dot"></span>Side Nav</a>
     </div>
   </nav>
 
@@ -2116,7 +2133,7 @@
       <div class="section-head">
         <div class="section-kicker">Components</div>
         <h2>Navigation</h2>
-        <p><strong>Nav Item</strong> é a linha de navegação — ícone, label, badge de contagem, tag "New", texto descritivo e chevron para expandir/colapsar. Duas aparências para o estado selecionado: <strong>Default</strong> (fundo sutil) e <strong>Pill</strong> (fundo cheio). <strong>Nav Group</strong> agrupa itens sob um cabeçalho ("SECONDARY MENU"), e <strong>Nav Menu</strong> é o container da barra lateral.</p>
+        <p><strong>Nav Item</strong> é a linha de navegação — ícone, label, badge de contagem (`countTone` escolhe a cor — `"error"` pra um contador urgente, por exemplo), tag "New", texto descritivo e chevron para expandir/colapsar (com filhos aninhados). Duas aparências para o estado selecionado: <strong>Default</strong> (fundo sutil) e <strong>Pill</strong> (fundo cheio). <strong>Nav Group</strong> agrupa itens sob um cabeçalho ("SECONDARY MENU"), e <strong>Nav Menu</strong> é o container da barra lateral — agora com `header`/`footer` livres (logo/switcher no topo, um botão fixado embaixo). Ver <a href="#side-nav" onclick="event.preventDefault();showPage('side-nav');">Side Nav</a> pra uma barra lateral completa montada com esses três.</p>
       </div>
 
       <div class="code-ref">
@@ -5535,6 +5552,168 @@
           <tr><td>Actions wrap</td><td class="mono">flex-wrap, sem breakpoint fixo</td><td>`actions` prop</td></tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="section" id="side-nav">
+      <div class="section-head">
+        <div class="section-kicker">Web App Components</div>
+        <h2>Side Nav</h2>
+        <p>A barra lateral completa é, quase toda, composição do que já existe: `NavMenu`/`NavGroup`/`NavItem` (grupos, badges, itens aninhados), `TextField` (busca), `ActionPanel` + `ProgressBar` (card de "storage quase cheio"), `Avatar`, e o `FlyoutMenu` já usado no Header. As duas peças genuinamente novas são o `SidebarSwitcher` (gatilho do dropdown de time/conta) e o `SidebarRailButton` (ícone só, pra barra colapsada).</p>
+      </div>
+
+      <div class="code-ref">
+        <div class="code-ref-label"><svg viewBox="0 0 24 24" fill="none"><path d="M8 4L2 12l6 8M16 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Implementação — pacote ds-tf-ds</div>
+        <pre><span class="tok-kw">import</span> { NavMenu, NavGroup, NavItem, SidebarSwitcher, SidebarRailButton, FlyoutMenu, FlyoutMenuTrigger, FlyoutMenuContent, FlyoutMenuItem, Avatar } <span class="tok-kw">from</span> <span class="tok-str">"ds-tf-ds"</span>;
+
+<span class="tok-tag">&lt;FlyoutMenu&gt;</span>
+  <span class="tok-tag">&lt;FlyoutMenuTrigger</span> asChild<span class="tok-tag">&gt;</span>
+    <span class="tok-tag">&lt;SidebarSwitcher</span> icon={<span class="tok-tag">&lt;TeamIcon /&gt;</span>} title=<span class="tok-str">"Google Team"</span> subtitle=<span class="tok-str">"@google"</span> <span class="tok-tag">/&gt;</span>
+  <span class="tok-tag">&lt;/FlyoutMenuTrigger&gt;</span>
+  <span class="tok-tag">&lt;FlyoutMenuContent</span> align=<span class="tok-str">"start"</span> size=<span class="tok-str">"sm"</span><span class="tok-tag">&gt;</span>
+    <span class="tok-tag">&lt;FlyoutMenuItem</span> icon={<span class="tok-tag">&lt;TwitterIcon /&gt;</span>} title=<span class="tok-str">"Twitter"</span> description=<span class="tok-str">"@twitter"</span> <span class="tok-tag">/&gt;</span>
+    <span class="tok-tag">&lt;FlyoutMenuItem</span> icon={<span class="tok-tag">&lt;GoogleIcon /&gt;</span>} title=<span class="tok-str">"Google"</span> description=<span class="tok-str">"@google"</span> <span class="tok-tag">/&gt;</span>
+  <span class="tok-tag">&lt;/FlyoutMenuContent&gt;</span>
+<span class="tok-tag">&lt;/FlyoutMenu&gt;</span>
+
+<span class="tok-tag">&lt;NavMenu</span>
+  header={<span class="tok-tag">&lt;/* team switcher acima */&gt;</span>}
+  footer={<span class="tok-tag">&lt;/* user switcher fixado embaixo */&gt;</span>}
+<span class="tok-tag">&gt;</span>
+  <span class="tok-tag">&lt;NavGroup</span> label=<span class="tok-str">"Workspace"</span><span class="tok-tag">&gt;</span>
+    <span class="tok-tag">&lt;NavItem</span> label=<span class="tok-str">"Ideas"</span> count={4} <span class="tok-tag">/&gt;</span>
+  <span class="tok-tag">&lt;/NavGroup&gt;</span>
+  <span class="tok-tag">&lt;NavGroup</span> label=<span class="tok-str">"Private"</span><span class="tok-tag">&gt;</span>
+    <span class="tok-tag">&lt;NavItem</span> label=<span class="tok-str">"Calendar"</span> count={20} countTone=<span class="tok-str">"error"</span> <span class="tok-tag">/&gt;</span>
+  <span class="tok-tag">&lt;/NavGroup&gt;</span>
+<span class="tok-tag">&lt;/NavMenu&gt;</span></pre>
+      </div>
+      <p style="margin:-16px 0 24px 0;font-size:12px;color:var(--text-secondary);">`SidebarSwitcher` não abre o dropdown sozinho — ele é feito pra ir dentro de um `FlyoutMenuTrigger asChild`, reaproveitando o popover que já existe em vez de um segundo dropdown do zero.</p>
+
+      <div class="subsection-title">Switcher — time e conta</div>
+      <div class="component-demo">
+        <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start;">
+          <div style="width:220px;">
+            <button class="sdw-trigger is-selected">
+              <span class="sdw-swatch" style="background:#D1FAE5;color:#367C50;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.8"/></svg></span>
+              <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Google Team</span><span class="sdw-subtitle" style="display:block;">@google</span></span>
+              <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><path d="M8 9l4-4 4 4M8 15l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            <nav class="nvi-menu" style="width:100%;margin-top:8px;box-sizing:border-box;">
+              <a class="nvi-item"><span class="nvi-label">Twitter</span><span class="sdw-subtitle" style="margin-left:auto;">@twitter</span></a>
+              <a class="nvi-item"><span class="nvi-label">Google</span><span class="sdw-subtitle" style="margin-left:auto;">@google</span></a>
+              <a class="nvi-item"><span class="nvi-label">Personal</span></a>
+            </nav>
+            <p style="margin:10px 0 0 0;font-size:12px;color:var(--text-secondary);">Lista simples de contas — cada linha é um `FlyoutMenuItem`.</p>
+          </div>
+
+          <div style="width:230px;">
+            <button class="sdw-trigger">
+              <span class="sdw-swatch" style="background:transparent;padding:0;overflow:hidden;"><img src="https://i.pravatar.cc/56?img=47" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" /></span>
+              <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Kianna Press</span><span class="sdw-subtitle" style="display:block;">@kianna</span></span>
+              <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
+            </button>
+            <nav class="nvi-menu" style="width:100%;margin-top:8px;box-sizing:border-box;">
+              <a class="nvi-item">Invite Members</a>
+              <a class="nvi-item">Preferences</a>
+              <a class="nvi-item">Tools</a>
+              <a class="nvi-item">Log Out</a>
+            </nav>
+            <p style="margin:10px 0 0 0;font-size:12px;color:var(--text-secondary);">Menu de ações — `avatar` no lugar de `icon`, `trailingIcon="kebab"`.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsection-title">Rail — barra colapsada</div>
+      <div class="component-demo">
+        <div class="sdw-rail">
+          <span class="sdw-rail-btn is-selected"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4a4 4 0 014 4c0 2.5-1.5 3.5-2 5H10c-.5-1.5-2-2.5-2-5a4 4 0 014-4z" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M12 20V10M12 10l7 4M12 10L5 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <span class="sdw-rail-btn" style="margin-top:auto;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        </div>
+        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">Sem container dedicado — é só uma `&lt;div class="flex flex-col gap-1"&gt;` estreita cheia de `SidebarRailButton`s. `selected` marca o item ativo.</p>
+      </div>
+
+      <div class="subsection-title">Exemplo montado — completo</div>
+      <div class="component-demo" style="background:transparent;border:none;box-shadow:none;padding:0;">
+        <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;">
+          <div class="sdw-shell" style="height:520px;">
+            <div class="hdr-logo" style="padding:6px 4px 10px;"><span class="hdr-logo-mark"></span>orchestra</div>
+            <button class="sdw-trigger">
+              <span class="sdw-swatch" style="background:#D1FAE5;color:#367C50;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/></svg></span>
+              <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Google Team</span><span class="sdw-subtitle" style="display:block;">@google</span></span>
+              <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><path d="M8 9l4-4 4 4M8 15l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </button>
+            <div class="nvi-group-label" style="padding-top:12px;">Workspace</div>
+            <a class="nvi-item is-selected"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1v-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="nvi-label">Home</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3 11.2c.6.4 1 1.1 1 1.8h4c0-.7.4-1.4 1-1.8A6 6 0 0012 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="nvi-label">Ideas</span><span class="nvi-count">4</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8"/></svg></span><span class="nvi-label">Projects</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="nvi-label">Team</span></a>
+            <div class="nvi-group-label">Private</div>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="nvi-label">Calendar</span><span class="badge badge--sm badge--subtle badge--error" style="margin-left:auto;">20</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="nvi-label">Notes &amp; Drafts</span><span class="nvi-count">4</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a1 1 0 001 1h8a1 1 0 001-1l1-13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nvi-label">Trash</span></a>
+            <div class="sdw-shell-footer">
+              <a class="nvi-item" style="color:var(--accent-primary);font-weight:600;">+ New Page</a>
+              <button class="sdw-trigger" style="margin-top:4px;">
+                <span class="sdw-swatch" style="background:transparent;padding:0;overflow:hidden;"><img src="https://i.pravatar.cc/56?img=47" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" /></span>
+                <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Kianna Press</span><span class="sdw-subtitle" style="display:block;">@kianna</span></span>
+                <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="sdw-rail" style="height:520px;">
+            <span class="sdw-rail-btn is-selected"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+            <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4a4 4 0 014 4c0 2.5-1.5 3.5-2 5H10c-.5-1.5-2-2.5-2-5a4 4 0 014-4z" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <span class="sdw-rail-btn" style="margin-top:auto;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          </div>
+
+          <div class="sdw-shell" style="height:520px;">
+            <div class="hdr-logo" style="padding:6px 4px 10px;"><span class="hdr-logo-mark"></span>orchestra</div>
+            <div class="tf-input" style="width:100%;margin-bottom:8px;box-sizing:border-box;"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="tf-value">Search</span></div>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1v-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="nvi-label">Home</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M12 20V4M20 20v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="nvi-label">Dashboard</span><span class="nvi-count">4</span><span class="nvi-chevron">⌄</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8"/></svg></span><span class="nvi-label">Projects</span><span class="nvi-chevron">⌄</span></a>
+            <a class="nvi-item is-selected"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="nvi-label">Team</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nvi-label">Reports</span><span class="nvi-count">4</span></a>
+            <a class="nvi-item is-disabled"><span class="nvi-label">Time Tracking</span></a>
+            <a class="nvi-item is-disabled"><span class="nvi-label">Notifications</span></a>
+            <a class="nvi-item is-disabled"><span class="nvi-label">Billing</span></a>
+            <div style="margin-top:auto;">
+              <div class="acp-card" style="border:1px solid var(--border-light);padding:14px;">
+                <div class="acp-title" style="font-size:12.5px;">Your storage is almost full!</div>
+                <div class="acp-desc" style="margin-top:4px;font-size:11px;">You have used up over 80% of your Basic Plan storage.</div>
+                <div class="prg-bar" style="margin-top:10px;"><div class="prg-bar-fill" style="width:82%;"></div></div>
+                <a href="#" style="display:block;margin-top:8px;font-size:11.5px;font-weight:600;color:var(--accent-primary);">Upgrade Now</a>
+              </div>
+              <button class="sdw-trigger" style="margin-top:6px;">
+                <span class="sdw-swatch" style="background:transparent;padding:0;overflow:hidden;"><img src="https://i.pravatar.cc/56?img=47" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" /></span>
+                <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Kianna Press</span><span class="sdw-subtitle" style="display:block;">@kianna</span></span>
+                <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">O card de armazenamento é um `ActionPanel` com um `ProgressBar` (`label="none"`) dentro do `children` — nenhum card novo foi criado pra isso. Itens muted ("Time Tracking", "Notifications", "Billing") são `NavItem`s com `disabled`.</p>
+      </div>
+
+      <div class="subsection-title">Especificação</div>
+      <table class="spec-table">
+        <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>Switcher swatch</td><td class="mono">28×28px, radius 6px</td><td>`icon`/`avatar` prop</td></tr>
+          <tr><td>Switcher selected</td><td class="mono">border 1.5px --color-accent-primary</td><td>`selected` prop</td></tr>
+          <tr><td>Rail button</td><td class="mono">34×34px, radius 8px</td><td>`SidebarRailButton`</td></tr>
+          <tr><td>Rail width (doc)</td><td class="mono">52px</td><td>Composição livre, sem prop de largura</td></tr>
+          <tr><td>NavMenu footer</td><td class="mono">margin-top: auto</td><td>`footer` prop — sempre fixado embaixo</td></tr>
+          <tr><td>Dropdown</td><td class="mono">`FlyoutMenu` (mesmo do Header)</td><td>`SidebarSwitcher` só é o gatilho</td></tr>
+        </tbody>
+      </table>
+      <p style="margin:14px 0 0 0;font-size:12px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> nenhum componente novo de "sidebar shell" foi criado — a barra inteira é `NavMenu` com `header`/`footer`, exatamente como qualquer outra composição no DS-TF.</p>
     </section>
 
 

@@ -3,7 +3,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "../../lib/cn";
 import "./Badge.css";
 
-type Tone = "neutral" | "accent" | "info" | "success" | "warning" | "error";
+export type BadgeTone = "neutral" | "accent" | "info" | "success" | "warning" | "error";
+type Tone = BadgeTone;
 type Appearance = "filled" | "subtle" | "outline";
 
 const toneAppearanceClass: Record<Tone, Record<Appearance, string>> = {
