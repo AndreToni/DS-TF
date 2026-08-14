@@ -26,6 +26,8 @@ src/
     Dialog/          Dialog.tsx          Dialog.css          index.ts
     Divider/         Divider.tsx         Divider.css         index.ts
     FilterButton/    FilterButton.tsx                        index.ts
+    FlyoutMenu/      FlyoutMenu.tsx                          index.ts
+    Header/          Header.tsx                              index.ts
     NavGroup/        NavGroup.tsx                            index.ts
     NavItem/         NavItem.tsx         NavItem.css         index.ts
     NavMenu/         NavMenu.tsx                             index.ts
@@ -46,7 +48,7 @@ src/
 tailwind-preset.cjs         ← extends your Tailwind theme with DS-TF tokens
 ```
 
-> **Status:** all 26 components documented in the design-token reference are now implemented as real React components — ActionPanel, the Activity Feed family (ActivityFeed, ActivityItem, ActivityIcon, ActivityAttachment), Alert/RichAlert, Card/CardHeader/CardFooter, BarChart/LineChart, DatePicker, FilterButton, Avatar, Badge, Breadcrumbs, Button, Checkbox, Dialog/DialogTrigger/DialogContent, Divider, the Navigation family (NavMenu, NavGroup, NavItem), RadioGroup/RadioGroupItem, RadioCard, Select/SelectItem, SlideOver/SlideOverTrigger/SlideOverContent, Slider, Switch, Tabs, Toggle, Tooltip, the Text Field family (TextField, PasswordField, AmountField, PaymentCardField), and the Text Area family (TextArea, CommentInput).
+> **Status:** all 28 components documented in the design-token reference are now implemented as real React components — ActionPanel, the Activity Feed family (ActivityFeed, ActivityItem, ActivityIcon, ActivityAttachment), Alert/RichAlert, Card/CardHeader/CardFooter, BarChart/LineChart, DatePicker, FilterButton, Header/HeaderNavLink, FlyoutMenu/FlyoutMenuContent/FlyoutMenuItem, Avatar, Badge, Breadcrumbs, Button, Checkbox, Dialog/DialogTrigger/DialogContent, Divider, the Navigation family (NavMenu, NavGroup, NavItem), RadioGroup/RadioGroupItem, RadioCard, Select/SelectItem, SlideOver/SlideOverTrigger/SlideOverContent, Slider, Switch, Tabs, Toggle, Tooltip, the Text Field family (TextField, PasswordField, AmountField, PaymentCardField), and the Text Area family (TextArea, CommentInput).
 
 ## Install
 
@@ -115,6 +117,8 @@ Every component accepts a `className` prop; it's merged with the built-in classe
 | `LineChart` | `<svg>` | Sparkline from a `number[]`, optional soft gradient fill (`filled`, default `true`). Same 6-tone system as `Badge`/`Alert` |
 | `DatePicker` | native `<button>` grid | Month calendar with prev/next nav, "today" dot, `mode="single" \| "range"`, `minDate`/`maxDate`. Free `footer` slot (Confirm/Dismiss `Button`s, or an "Enter Date" `TextField`). **Scope note:** no dual-month side-by-side view (compose two instances sharing state instead); adjacent-month days don't jump the calendar on click; day grid is Tab-through, not roving-tabindex arrow-key navigation |
 | `FilterButton` | `<div>` + `<button>` × 1-2 + `Badge` | Filter-bar chip: `variant="filter" \| "add" \| "date" \| "sort"` picks a default trailing icon, `count` shows a real `Badge`, `onClear` renders a separate sibling "×" `<button>` (never nested inside the main trigger). `selected` gives the outlined "active" look |
+| `Header` / `HeaderNavLink` | `<header>` + `SlideOver` | Responsive top navbar — free `logo`/`nav`/`actions` slots, collapsing below the `md` (768px) breakpoint into a hamburger button that opens a real `SlideOverContent` (`mobileMenu` slot, defaults to `nav`+`actions` stacked). `HeaderNavLink` is a plain horizontal nav item with an optional trailing chevron for `FlyoutMenu` pairing. **Scope note:** search bar, user-avatar dropdown, and "signed-in" mobile account menus aren't dedicated components — compose them from `TextField`/`Avatar`/`FlyoutMenuItem` inside `actions`/`mobileMenu` |
+| `FlyoutMenu` / `FlyoutMenuTrigger` / `FlyoutMenuContent` / `FlyoutMenuItem` | `@radix-ui/react-popover` | Dismissible dropdown panel (click-outside/Escape, auto-positioned) for the "Fly-Out Navigation" mega-menu — pair `FlyoutMenuTrigger asChild` with a `HeaderNavLink`. `FlyoutMenuContent` has free `children`/`footer` slots (`size="sm" \| "md" \| "lg"`); `FlyoutMenuItem` is the repeated icon+title+description row (optional `isNew` `Badge`). Mega-menu layout (columns, article cards, icon grids) is left entirely to composition — no built-in layout variants |
 | `Button`   | native `<button>` + `cva`       | 5 variants (primary/secondary/outlined/transparent/destructive) × 3 sizes, `leadIcon`/`tailIcon` slots |
 | `Badge`    | `<span>` + `cva`                | 6 tones × 3 appearances (filled/subtle/outline) × 3 sizes, optional `dot` |
 | `Avatar`   | `@radix-ui/react-avatar`        | Handles the photo → initials → placeholder fallback chain automatically. **SSR note:** the fallback (initials/placeholder) only appears after client hydration — Radix resolves image-load status in an effect. |
