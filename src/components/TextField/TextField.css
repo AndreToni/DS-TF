@@ -1,0 +1,48 @@
+.ds-tf-textfield-control {
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.ds-tf-textfield-control:hover:not([data-disabled="true"]) {
+  border-color: var(--color-border-dark);
+  filter: brightness(0.96);
+}
+
+.ds-tf-textfield-control:focus-within {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px var(--color-accent-background);
+}
+
+.ds-tf-textfield-control[data-error="true"] {
+  border-color: var(--color-error-primary);
+}
+
+.ds-tf-textfield-control[data-error="true"]:focus-within {
+  box-shadow: 0 0 0 3px var(--color-error-light);
+}
+
+.ds-tf-textfield-control[data-disabled="true"] {
+  background-color: var(--color-background-medium);
+  cursor: not-allowed;
+}
+
+.ds-tf-textfield-input::placeholder {
+  color: var(--color-text-hint);
+}
+
+.ds-tf-textfield-input:disabled {
+  cursor: not-allowed;
+}
+
+.ds-tf-textfield-icon-btn {
+  color: var(--color-text-secondary);
+  transition: color 150ms ease;
+}
+
+.ds-tf-textfield-icon-btn:hover:not(:disabled) {
+  color: var(--color-text-primary);
+}
+
+.ds-tf-textfield-icon-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}

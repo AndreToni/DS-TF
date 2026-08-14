@@ -1,0 +1,27 @@
+.ds-tf-radio {
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.ds-tf-radio[data-state="checked"] {
+  border-color: var(--color-accent-primary);
+}
+
+.ds-tf-radio:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-accent-background);
+}
+
+.ds-tf-radio:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ds-tf-radio-indicator {
+  width: 9px;
+  height: 9px;
+  border-radius: 9999px;
+  background-color: var(--color-accent-primary);
+}

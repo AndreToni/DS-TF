@@ -1,0 +1,27 @@
+.ds-tf-tab-trigger {
+  transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+
+.ds-tf-tab-trigger[data-state="active"] {
+  color: var(--color-accent-primary);
+}
+
+.ds-tf-tab-trigger--line[data-state="active"] {
+  border-color: var(--color-accent-primary);
+}
+
+.ds-tf-tab-trigger--pill[data-state="active"] {
+  background-color: var(--color-accent-primary);
+  color: white;
+}
+
+.ds-tf-tab-trigger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-accent-background);
+  border-radius: 6px;
+}
+
+.ds-tf-tab-trigger:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

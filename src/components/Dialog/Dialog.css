@@ -1,0 +1,41 @@
+.ds-tf-dialog-overlay {
+  background-color: rgba(16, 26, 35, 0.44);
+  animation: ds-tf-dialog-overlay-in 150ms ease;
+}
+
+.ds-tf-dialog-content {
+  animation: ds-tf-dialog-content-in 150ms ease;
+}
+
+.ds-tf-dialog-content:focus {
+  outline: none;
+}
+
+.ds-tf-dialog-close {
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.ds-tf-dialog-close:hover {
+  background-color: var(--color-background-medium);
+  color: var(--color-text-primary);
+}
+
+@keyframes ds-tf-dialog-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ds-tf-dialog-content-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

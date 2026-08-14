@@ -1,0 +1,83 @@
+.ds-tf-toggle {
+  transition: background-color 150ms ease;
+  background-color: var(--color-border-dark);
+}
+
+.ds-tf-toggle[data-state="checked"] {
+  background-color: var(--color-accent-primary);
+}
+
+.ds-tf-toggle[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ds-tf-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-accent-background);
+}
+
+.ds-tf-toggle-thumb {
+  background-color: #fff;
+  box-shadow: var(--shadow-sm);
+  transition: transform 150ms ease;
+  color: var(--color-text-secondary);
+}
+
+.ds-tf-toggle[data-state="checked"] .ds-tf-toggle-thumb {
+  color: var(--color-accent-primary);
+}
+
+/* Thumb travel distance — fixed per size, since Tailwind can't derive
+   dynamic arbitrary values from JS at build time for a pre-bundled package. */
+.ds-tf-toggle--short .ds-tf-toggle-thumb {
+  transform: translateX(2px);
+}
+.ds-tf-toggle--short[data-state="checked"] .ds-tf-toggle-thumb {
+  transform: translateX(14px);
+}
+
+.ds-tf-toggle--default .ds-tf-toggle-thumb {
+  transform: translateX(2px);
+}
+.ds-tf-toggle--default[data-state="checked"] .ds-tf-toggle-thumb {
+  transform: translateX(18px);
+}
+
+.ds-tf-toggle--wide .ds-tf-toggle-thumb {
+  transform: translateX(3px);
+}
+.ds-tf-toggle--wide[data-state="checked"] .ds-tf-toggle-thumb {
+  transform: translateX(35px);
+}
+
+.ds-tf-toggle-label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-text-secondary);
+  pointer-events: none;
+  transition: opacity 150ms ease;
+}
+
+.ds-tf-toggle-label--off {
+  right: 6px;
+  opacity: 1;
+}
+
+.ds-tf-toggle-label--on {
+  left: 6px;
+  color: #fff;
+  opacity: 0;
+}
+
+.ds-tf-toggle[data-state="checked"] .ds-tf-toggle-label--off {
+  opacity: 0;
+}
+
+.ds-tf-toggle[data-state="checked"] .ds-tf-toggle-label--on {
+  opacity: 1;
+}

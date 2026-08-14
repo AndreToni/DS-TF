@@ -1,0 +1,87 @@
+/**
+ * DS-TF v1.1 (Light) — Design Tokens
+ * Source of truth as CSS custom properties. Import this file once at the
+ * root of your app:
+ *
+ *   import "ds-tf-ds/tokens.css";
+ *
+ * The Tailwind preset (`ds-tf-ds/tailwind-preset`) references these
+ * variables, so component utility classes (bg-accent-primary, etc.) work
+ * correctly as long as this file is loaded.
+ */
+
+:root {
+  /* Text */
+  --color-text-primary: #2c2e30;
+  --color-text-secondary: #a0a3a6;
+  --color-text-hint: #d9dbdd;
+  --color-text-disabled: #a3a3a3;
+
+  /* Background */
+  --color-background-surface: #ffffff;
+  --color-background-canvas: #ffffff;
+  --color-background-light: #fbfbfc;
+  --color-background-medium: #f4f5f5;
+  --color-background-contrast: #2c2c2e;
+
+  /* Border */
+  --color-border-light: #e7e8e9;
+  --color-border-dark: #d9dbdd;
+  --color-border-disabled: #d4d4d4;
+
+  /* Action */
+  --color-action-light: #233737;
+  --color-action-medium: #101a23;
+  --color-action-disabled: #000000;
+
+  /* Accent */
+  --color-accent-primary: #2563eb;
+  --color-accent-light: #3b82f6;
+  --color-accent-medium: #293e7a;
+  --color-accent-background: #eff6ff;
+  --color-accent-contrast: #ffffff;
+
+  /* Info */
+  --color-info-primary: #3b82f6;
+  --color-info-light: #dbeafe;
+  --color-info-medium: #293e7a;
+  --color-info-contrast: #223058;
+
+  /* Warning */
+  --color-warning-primary: #f5d90a;
+  --color-warning-light: #fffbd1;
+  --color-warning-medium: #946800;
+  --color-warning-contrast: #35290f;
+
+  /* Error */
+  --color-error-primary: #ef4444;
+  --color-error-light: #fee2e2;
+  --color-error-medium: #b91c1c;
+  --color-error-contrast: #422424;
+
+  /* Success */
+  --color-success-primary: #41b871;
+  --color-success-light: #d1fae5;
+  --color-success-medium: #367c50;
+  --color-success-contrast: #084938;
+
+  /* Other */
+  --color-other-divider: #f4f5f5;
+  --color-other-backdrop: #101a23;
+
+  /* Elevation */
+  --shadow-xs: 0px 5px 4px -4px rgba(0, 0, 0, 0.02), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+  --shadow-sm: 0px 0px 2px 0px rgba(0, 0, 0, 0.04), 0px 2px 2px 0px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0px 0px 4px 0px rgba(0, 0, 0, 0.04), 0px 12px 12px -8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0px 2px 6px 0px rgba(0, 0, 0, 0.06), 0px 32px 40px -16px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0px 48px 64px -24px rgba(0, 0, 0, 0.12), 0px 24px 48px -8px rgba(0, 0, 0, 0.12);
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  /* Font */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+}

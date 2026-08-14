@@ -1,0 +1,43 @@
+.ds-tf-comment-box,
+.ds-tf-comment-row {
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.ds-tf-comment-box:focus-within,
+.ds-tf-comment-row:focus-within {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px var(--color-accent-background);
+}
+
+.ds-tf-comment-box[data-disabled="true"],
+.ds-tf-comment-row[data-disabled="true"] {
+  background-color: var(--color-background-medium);
+  cursor: not-allowed;
+}
+
+.ds-tf-comment-textarea::placeholder,
+.ds-tf-comment-input::placeholder {
+  color: var(--color-text-hint);
+}
+
+.ds-tf-comment-icon-btn {
+  color: var(--color-text-secondary);
+  transition: color 150ms ease;
+}
+
+.ds-tf-comment-icon-btn:hover:not(:disabled) {
+  color: var(--color-text-primary);
+}
+
+.ds-tf-comment-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ds-tf-comment-send-icon {
+  transition: background-color 150ms ease, opacity 150ms ease;
+}
+
+.ds-tf-comment-send-icon:hover:not(:disabled) {
+  background-color: var(--color-accent-light);
+}

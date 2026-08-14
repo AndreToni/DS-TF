@@ -1,0 +1,41 @@
+.ds-tf-tooltip-content {
+  background-color: var(--color-background-contrast);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  z-index: 50;
+  animation: ds-tf-tooltip-in 120ms ease;
+  transform-origin: var(--radix-tooltip-content-transform-origin);
+}
+
+.ds-tf-tooltip-content[data-appearance="light"] {
+  background-color: #fff;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-light);
+}
+
+.ds-tf-tooltip-desc {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.ds-tf-tooltip-content[data-appearance="light"] .ds-tf-tooltip-desc {
+  color: var(--color-text-secondary);
+}
+
+.ds-tf-tooltip-arrow {
+  fill: var(--color-background-contrast);
+}
+
+.ds-tf-tooltip-content[data-appearance="light"] .ds-tf-tooltip-arrow {
+  fill: #fff;
+}
+
+@keyframes ds-tf-tooltip-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

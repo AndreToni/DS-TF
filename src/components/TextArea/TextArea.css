@@ -1,0 +1,29 @@
+.ds-tf-textarea-control {
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.ds-tf-textarea-control:hover:not([data-disabled="true"]) {
+  border-color: var(--color-border-dark);
+}
+
+.ds-tf-textarea-control:focus {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px var(--color-accent-background);
+}
+
+.ds-tf-textarea-control[data-error="true"] {
+  border-color: var(--color-error-primary);
+}
+
+.ds-tf-textarea-control[data-error="true"]:focus {
+  box-shadow: 0 0 0 3px var(--color-error-light);
+}
+
+.ds-tf-textarea-control[data-disabled="true"] {
+  background-color: var(--color-background-medium);
+  cursor: not-allowed;
+}
+
+.ds-tf-textarea-control::placeholder {
+  color: var(--color-text-hint);
+}

@@ -1,0 +1,26 @@
+.ds-tf-radio-card {
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.ds-tf-radio-card[data-state="checked"] {
+  border-color: var(--color-accent-primary);
+  background-color: var(--color-accent-background);
+}
+
+.ds-tf-radio-card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-accent-background);
+}
+
+.ds-tf-radio-card[data-disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.ds-tf-radio-card-dot {
+  transition: border-color 150ms ease;
+}
+
+.ds-tf-radio-card[data-state="checked"] .ds-tf-radio-card-dot {
+  border-color: var(--color-accent-primary);
+}

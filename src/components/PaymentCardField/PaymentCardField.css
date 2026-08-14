@@ -1,0 +1,39 @@
+.ds-tf-paymentcard-control {
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.ds-tf-paymentcard-control:hover:not([data-disabled="true"]) {
+  border-color: var(--color-border-dark);
+}
+
+.ds-tf-paymentcard-control:focus-within {
+  border-color: var(--color-accent-primary);
+  box-shadow: 0 0 0 3px var(--color-accent-background);
+}
+
+.ds-tf-paymentcard-control[data-error="true"] {
+  border-color: var(--color-error-primary);
+}
+
+.ds-tf-paymentcard-control[data-disabled="true"] {
+  background-color: var(--color-background-medium);
+  cursor: not-allowed;
+}
+
+.ds-tf-paymentcard-input::placeholder {
+  color: var(--color-text-hint);
+}
+
+.ds-tf-paymentcard-brand {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 18px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}

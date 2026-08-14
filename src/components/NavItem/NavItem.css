@@ -1,0 +1,39 @@
+.ds-tf-nav-item {
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.ds-tf-nav-item:hover:not([data-disabled="true"]) {
+  background-color: var(--color-background-medium);
+}
+
+.ds-tf-nav-item[data-selected="true"][data-appearance="default"] {
+  background-color: var(--color-accent-background);
+  color: var(--color-accent-primary);
+}
+
+.ds-tf-nav-item[data-selected="true"][data-appearance="default"] .ds-tf-nav-item-icon {
+  color: var(--color-accent-primary);
+}
+
+.ds-tf-nav-item[data-selected="true"][data-appearance="pill"] {
+  background-color: var(--color-accent-primary);
+  color: #fff;
+}
+
+.ds-tf-nav-item[data-selected="true"][data-appearance="pill"] .ds-tf-nav-item-icon {
+  color: #fff;
+}
+
+.ds-tf-nav-item:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-accent-background);
+}
+
+.ds-tf-nav-item-chevron {
+  transition: transform 150ms ease;
+  color: var(--color-text-secondary);
+}
+
+.ds-tf-nav-item[data-selected="true"] .ds-tf-nav-item-chevron {
+  color: inherit;
+}

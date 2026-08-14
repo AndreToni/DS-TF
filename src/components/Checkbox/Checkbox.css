@@ -1,0 +1,23 @@
+.ds-tf-checkbox {
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.ds-tf-checkbox[data-state="checked"],
+.ds-tf-checkbox[data-state="indeterminate"] {
+  background-color: var(--color-accent-primary);
+  border-color: var(--color-accent-primary);
+}
+
+.ds-tf-checkbox:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-accent-background);
+}
+
+.ds-tf-checkbox:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

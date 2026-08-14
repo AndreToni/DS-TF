@@ -1,0 +1,47 @@
+.ds-tf-action-panel[data-surface="solid"] {
+  background: #ffffff;
+  border: 1px solid var(--color-border-light);
+}
+
+.ds-tf-action-panel[data-surface="subtle"] {
+  background: var(--color-background-medium);
+  border: 1px solid transparent;
+}
+
+/* Optional wrapper for the "chip" icon treatment (Action Panel / Figma
+   examples) — wrap the icon passed to `icon` in a span with this class.
+   Not applied automatically, since some panels use a small inline icon
+   instead (see Subscribe to Newsletter). */
+.ds-tf-action-panel-icon-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--color-background-medium);
+  color: var(--color-accent-primary);
+  flex-shrink: 0;
+}
+
+.ds-tf-action-panel[data-surface="subtle"] .ds-tf-action-panel-icon-chip {
+  background: #ffffff;
+}
+
+/* Optional close-button styling for a `headerAction` that dismisses the
+   panel — bring your own <button>, this class just supplies the hover state. */
+.ds-tf-action-panel-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  color: var(--color-text-secondary);
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.ds-tf-action-panel-close:hover {
+  background-color: var(--color-background-medium);
+  color: var(--color-text-primary);
+}

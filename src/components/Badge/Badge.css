@@ -1,0 +1,10 @@
+.ds-tf-badge {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ds-tf-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
