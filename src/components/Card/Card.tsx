@@ -34,6 +34,12 @@ export interface CardProps {
  * >
  *   Content Slot
  * </Card>
+ *
+ * @example
+ * // With a leading icon (e.g. a stat card)
+ * <Card header={<CardHeader icon={<ActivityIcon tone="accent"><UsersIcon /></ActivityIcon>} title="New Users" />}>
+ *   ...
+ * </Card>
  */
 export const Card = forwardRef<HTMLDivElement, CardProps>(
   ({ header, footer, children, size, className }, ref) => {
@@ -63,6 +69,8 @@ Card.displayName = "Card";
 /* ---------------------------------------------------------------------- */
 
 export interface CardHeaderProps {
+  /** Leading icon — e.g. an `ActivityIcon` circle, matching the "New Users" stat cards. */
+  icon?: ReactNode;
   title: ReactNode;
   /** Muted line under the title (matches "Description Text" in the design reference). */
   description?: ReactNode;
@@ -74,7 +82,7 @@ export interface CardHeaderProps {
 }
 
 export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
-  ({ title, description, action, onDismiss, className }, ref) => {
+  ({ icon, title, description, action, onDismiss, className }, ref) => {
     return (
       <div
         ref={ref}
@@ -83,9 +91,12 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
           className
         )}
       >
-        <div className="min-w-0">
-          <p className="truncate text-sm font-semibold text-ink-primary">{title}</p>
-          {description && <p className="mt-0.5 truncate text-xs text-ink-secondary">{description}</p>}
+        <div className={cn("flex min-w-0 items-center", icon ? "gap-2.5" : "")}>
+          {icon}
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold text-ink-primary">{title}</p>
+            {description && <p className="mt-0.5 truncate text-xs text-ink-secondary">{description}</p>}
+          </div>
         </div>
         {(action || onDismiss) && (
           <div className="flex shrink-0 items-center gap-2">

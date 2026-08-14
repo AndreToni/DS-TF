@@ -33,6 +33,7 @@ export * from "./components/Select";
 export * from "./components/SidebarSwitcher";
 export * from "./components/Slider";
 export * from "./components/SlideOver";
+export * from "./components/Stat";
 export * from "./components/Switch";
 export * from "./components/Tabs";
 export * from "./components/TextArea";
