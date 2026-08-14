@@ -53,22 +53,29 @@ export interface ActivityItemProps {
   description: ReactNode;
   /** Relative time, e.g. "2min ago" — rendered next to `name`. */
   timestamp?: ReactNode;
+  /** Trailing control at the far right of the name/timestamp row — e.g. a
+   * "⋯" overflow menu button (see the "Comment" examples in the design
+   * reference). */
+  headerAction?: ReactNode;
   /** Free-form body below the description — a quoted comment
    * (`<p className="...">`), an `ActivityAttachment`, an actions row
-   * (`Reply`/`Dismiss` buttons or links), or any combination. Omit for a
-   * plain one-line log entry. */
+   * (`Reaction`/`Reply`/`Dismiss` buttons or links), or any combination.
+   * Omit for a plain one-line log entry. */
   children?: ReactNode;
   className?: string;
 }
 
 export const ActivityItem = forwardRef<HTMLDivElement, ActivityItemProps>(
-  ({ icon, name, description, timestamp, children, className }, ref) => (
+  ({ icon, name, description, timestamp, headerAction, children, className }, ref) => (
     <div ref={ref} className={cn("ds-tf-activity-item flex gap-3 py-4", className)}>
       {icon}
       <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-baseline gap-x-2">
-          <span className="text-[13px] font-semibold text-ink-primary">{name}</span>
-          {timestamp && <span className="text-xs text-ink-secondary">{timestamp}</span>}
+        <div className="flex flex-wrap items-baseline justify-between gap-x-2">
+          <div className="flex flex-wrap items-baseline gap-x-2">
+            <span className="text-[13px] font-semibold text-ink-primary">{name}</span>
+            {timestamp && <span className="text-xs text-ink-secondary">{timestamp}</span>}
+          </div>
+          {headerAction}
         </div>
         <p className="text-[13px] leading-snug text-ink-secondary">{description}</p>
         {children && <div className="mt-2.5 flex flex-col items-start gap-2.5">{children}</div>}

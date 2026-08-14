@@ -1162,6 +1162,33 @@
   .hdr-mobile-link{display:flex;align-items:center;justify-content:space-between;padding:10px 8px;border-radius:8px;font-size:13px;font-weight:600;color:var(--text-primary);}
   .hdr-mobile-link svg{width:14px;height:14px;color:var(--text-secondary);}
   .hdr-mobile-footer{padding:12px 14px;border-top:1px solid var(--border-light);display:flex;flex-direction:column;gap:8px;}
+
+  /* ---------- MESSAGE / REACTION ---------- */
+  .msg-thread{display:flex;flex-direction:column;gap:14px;max-width:340px;}
+  .msg{display:flex;flex-direction:column;gap:4px;max-width:280px;}
+  .msg.is-sent{align-self:flex-end;align-items:flex-end;}
+  .msg-sender{padding:0 4px;font-size:13px;font-weight:600;color:var(--text-primary);}
+  .msg-bubble{display:flex;flex-direction:column;gap:8px;padding:12px 16px;border-radius:16px;font-size:13.5px;line-height:1.5;background:var(--bg-medium);color:var(--text-primary);}
+  .msg.is-sent .msg-bubble{background:var(--accent-primary);color:#fff;}
+  .msg-file{display:flex;align-items:center;gap:8px;width:100%;padding:8px 10px;border-radius:8px;border:1px solid var(--border-light);background:var(--bg-light);}
+  .msg-file svg{width:15px;height:15px;color:var(--text-secondary);flex-shrink:0;}
+  .msg-file-name{flex:1;min-width:0;font-size:12.5px;font-weight:600;color:var(--text-primary);}
+  .msg-file-size{font-size:11px;color:var(--text-secondary);flex-shrink:0;}
+  .msg-photos{width:180px;overflow:hidden;border-radius:10px;border:1px solid var(--border-light);background:#fff;}
+  .msg-photos-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border-light);padding:2px;}
+  .msg-photo{position:relative;aspect-ratio:1;background:var(--bg-medium);overflow:hidden;}
+  .msg-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .msg-photo-more{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(16,26,35,.55);color:#fff;font-size:13px;font-weight:600;}
+  .msg-photos-meta{display:flex;align-items:center;justify-content:space-between;padding:8px 10px;font-size:12px;}
+  .msg-photos-meta strong{font-size:12.5px;font-weight:600;color:var(--text-primary);}
+  .msg-photos-meta span{color:var(--text-secondary);}
+  .msg-meta{padding:0 4px;font-size:11.5px;color:var(--text-secondary);}
+  .msg-reactions{display:flex;align-items:center;gap:6px;padding:0 4px;}
+  .rxn{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px 0 4px;border-radius:999px;border:1.5px solid transparent;background:var(--bg-medium);font-size:11.5px;font-weight:700;color:var(--text-primary);}
+  .rxn.is-selected{border-color:var(--accent-primary);background:var(--accent-bg);color:var(--accent-primary);}
+  .rxn-avatar{width:18px;height:18px;border-radius:999px;background:#fff;border:1px solid var(--border-light);}
+  .rxn-add{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;border:1.5px dashed var(--border-dark);color:var(--text-secondary);}
+  .rxn-add svg{width:13px;height:13px;}
 </style>
 </head>
 <body>
@@ -1221,6 +1248,7 @@
       <a class="nav-link" data-target="date-picker" href="#date-picker"><span class="dot"></span>Date Picker</a>
       <a class="nav-link" data-target="filter-button" href="#filter-button"><span class="dot"></span>Filter Button</a>
       <a class="nav-link" data-target="header" href="#header"><span class="dot"></span>Header Nav</a>
+      <a class="nav-link" data-target="message" href="#message"><span class="dot"></span>Message</a>
     </div>
   </nav>
 
@@ -4026,7 +4054,7 @@
       <div class="section-head">
         <div class="section-kicker">Web App Components</div>
         <h2>Activity Feed</h2>
-        <p>Lista de notificações/atividade — cada linha combina um indicador (ícone colorido por tipo, ou avatar para atividade de comentário), nome + horário, descrição, e um corpo livre opcional (comentário citado, anexo de arquivo, ações Reply/Dismiss). `ActivityFeed` só cuida do espaçamento entre linhas — todo o conteúdo é `ActivityItem` + composição.</p>
+        <p>Lista de notificações/atividade — cada linha combina um indicador (ícone colorido por tipo, ou avatar para atividade de comentário), nome + horário + `headerAction` opcional ("⋯"), descrição, e um corpo livre opcional (comentário citado, anexo de arquivo, `Reaction`, ações Reply/Dismiss). `ActivityFeed` só cuida do espaçamento entre linhas — todo o conteúdo é `ActivityItem` + composição. É essa mesma dupla que cobre o padrão "Comment" (ver <a href="#message" onclick="event.preventDefault();showPage('message');">Message</a>), sem precisar de um componente de comentário separado.</p>
       </div>
 
       <div class="code-ref">
@@ -4945,6 +4973,144 @@
         </tbody>
       </table>
       <p style="margin:14px 0 0 0;font-size:12px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> barra de busca, dropdown de perfil de usuário e os menus mobile "logado" (Design System Manager, Documents/Projects com contadores etc.) não viram componentes dedicados — são composição livre de `TextField`, `Avatar`, `Badge` e `FlyoutMenuItem` dentro de `actions`/`mobileMenu`.</p>
+    </section>
+
+    <section class="section" id="message">
+      <div class="section-head">
+        <div class="section-kicker">Web App Components</div>
+        <h2>Message</h2>
+        <p>Bolha de chat — nome do remetente, balão à esquerda (recebida) ou à direita (enviada, cor de destaque), com slot livre para anexo (arquivo ou grade de fotos), horário e uma linha de reações. Para threads de comentário com resposta (o padrão "Comment" do mesmo arquivo Figma), reaproveitamos o <a href="#activity-feed" onclick="event.preventDefault();showPage('activity-feed');">`ActivityFeed`/`ActivityItem`</a> já existente — nenhum componente de comentário novo foi criado, pra não duplicar o que já cobre esse caso.</p>
+      </div>
+
+      <div class="code-ref">
+        <div class="code-ref-label"><svg viewBox="0 0 24 24" fill="none"><path d="M8 4L2 12l6 8M16 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Implementação — pacote ds-tf-ds</div>
+        <pre><span class="tok-kw">import</span> { Message, MessagePhotoGrid, Reaction, ReactionAddButton, ActivityAttachment, Avatar } <span class="tok-kw">from</span> <span class="tok-str">"ds-tf-ds"</span>;
+
+<span class="tok-tag">&lt;Message</span>
+  sender=<span class="tok-str">"Jessica Moon"</span>
+  attachment={<span class="tok-tag">&lt;ActivityAttachment</span> name=<span class="tok-str">"File Name"</span> size=<span class="tok-str">"54 kB"</span> <span class="tok-tag">/&gt;</span>}
+<span class="tok-tag">&gt;</span>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+<span class="tok-tag">&lt;/Message&gt;</span>
+
+<span class="tok-tag">&lt;Message</span>
+  align=<span class="tok-str">"right"</span>
+  timestamp=<span class="tok-str">"12:45 am"</span>
+  reactions={<span class="tok-tag">&lt;&gt;</span>
+    <span class="tok-tag">&lt;Reaction</span> avatar={<span class="tok-tag">&lt;Avatar</span> size=<span class="tok-str">"xs"</span> <span class="tok-tag">/&gt;</span>} count={3} <span class="tok-tag">/&gt;</span>
+    <span class="tok-tag">&lt;ReactionAddButton /&gt;</span>
+  <span class="tok-tag">&lt;/&gt;</span>}
+<span class="tok-tag">&gt;</span>
+  Okay. Let me find some gradients.
+<span class="tok-tag">&lt;/Message&gt;</span></pre>
+      </div>
+      <p style="margin:-16px 0 24px 0;font-size:12px;color:var(--text-secondary);">`align="left" | "right"` define o lado e a cor do balão. `children`, `attachment`, `timestamp` e `reactions` são todos slots livres — nada é fixo além do container do balão.</p>
+
+      <div class="subsection-title">Balões — recebida e enviada</div>
+      <div class="component-demo">
+        <div class="msg-thread">
+          <div class="msg">
+            <span class="msg-sender">Jessica Moon</span>
+            <div class="msg-bubble">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              <div class="msg-file"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="msg-file-name">File Name</span><span class="msg-file-size">54 kB</span></div>
+            </div>
+            <span class="msg-meta">12:45 am</span>
+          </div>
+          <div class="msg is-sent">
+            <div class="msg-bubble">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              <div class="msg-file"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="msg-file-name">File Name</span><span class="msg-file-size">54 kB</span></div>
+            </div>
+            <span class="msg-meta">12:45 am</span>
+          </div>
+        </div>
+        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">O chip de arquivo é o `ActivityAttachment` real, passado em `attachment` — mesmo componente usado no Activity Feed, sem estilo duplicado.</p>
+      </div>
+
+      <div class="subsection-title">Anexo — grade de fotos</div>
+      <div class="component-demo">
+        <div class="msg-thread">
+          <div class="msg is-sent">
+            <div class="msg-bubble">Okay. Let me find some gradients.</div>
+          </div>
+          <div class="msg is-sent">
+            <div class="msg-photos">
+              <div class="msg-photos-grid">
+                <div class="msg-photo" style="background:linear-gradient(135deg,#93C5FD,#2563EB);"></div>
+                <div class="msg-photo" style="background:linear-gradient(135deg,#FCA5A5,#EF4444);"></div>
+                <div class="msg-photo" style="background:linear-gradient(135deg,#FDE68A,#F59E0B);"></div>
+                <div class="msg-photo" style="background:linear-gradient(135deg,#6EE7B7,#10B981);"><span class="msg-photo-more">+2</span></div>
+              </div>
+              <div class="msg-photos-meta"><strong>12 Photos</strong><span>54 kB</span></div>
+            </div>
+            <span class="msg-meta">12:45 am</span>
+            <div class="msg-reactions">
+              <span class="rxn"><span class="rxn-avatar"></span>3</span>
+              <span class="rxn-add"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 13.5c.8 1.2 2 2 3.5 2s2.7-.8 3.5-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="10" r="0.9" fill="currentColor"/><circle cx="15" cy="10" r="0.9" fill="currentColor"/></svg></span>
+            </div>
+          </div>
+          <div class="msg">
+            <span class="msg-sender">Jessica Moon</span>
+            <div class="msg-bubble">Thanks! These are beautiful, Karina.</div>
+            <span class="msg-meta">12:45 am</span>
+          </div>
+        </div>
+        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">`MessagePhotoGrid` recebe `images` (URLs) e sobrepõe um "+N" na última miniatura quando há mais fotos do que `maxVisible` (padrão 3) — mesmo tratamento de card com borda do `ActivityAttachment`, aplicado a foto em vez de arquivo.</p>
+      </div>
+
+      <div class="subsection-title">Reaction — pill de reação</div>
+      <div class="component-demo">
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+          <span class="rxn"><span class="rxn-avatar"></span>3</span>
+          <span class="rxn is-selected"><span class="rxn-avatar"></span>3</span>
+          <span class="rxn">3</span>
+          <span class="rxn-add"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 13.5c.8 1.2 2 2 3.5 2s2.7-.8 3.5-2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="9" cy="10" r="0.9" fill="currentColor"/><circle cx="15" cy="10" r="0.9" fill="currentColor"/></svg></span>
+        </div>
+        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">`&lt;button&gt;` real — `selected` dá o contorno de destaque ("você reagiu"). `avatar` aceita um `Avatar size="xs"` (placeholder cinza por padrão) ou fica só com o contador. `ReactionAddButton` é o gatilho tracejado pra abrir seu próprio seletor de emoji.</p>
+      </div>
+
+      <div class="subsection-title">Exemplo montado — thread + composer</div>
+      <div class="component-demo" style="background:transparent;border:none;box-shadow:none;padding:0;">
+        <div class="slo-stage" style="height:420px;width:320px;flex:none;">
+          <div class="hdr-mobile-panel" style="width:100%;">
+            <div class="hdr-mobile-header">Jessica Moon</div>
+            <div class="hdr-mobile-body" style="padding:12px;gap:12px;">
+              <div class="msg">
+                <div class="msg-bubble">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</div>
+                <div class="msg-file"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span class="msg-file-name">File Name</span><span class="msg-file-size">54 kB</span></div>
+              </div>
+              <div class="msg is-sent">
+                <div class="msg-bubble">Okay. Let me find some gradients.</div>
+              </div>
+              <div class="msg is-sent">
+                <div class="msg-bubble">Thanks! These are beautiful, Karina.</div>
+                <div class="msg-reactions"><span class="rxn is-selected"><span class="rxn-avatar"></span>3</span></div>
+              </div>
+            </div>
+            <div class="hdr-mobile-footer" style="flex-direction:row;align-items:center;gap:6px;">
+              <span style="flex:1;height:32px;border-radius:999px;background:var(--bg-medium);display:flex;align-items:center;padding:0 12px;font-size:12px;color:var(--text-secondary);">Send Message</span>
+              <span class="hdr-hamburger" style="width:32px;height:32px;background:var(--accent-primary);color:#fff;"><svg viewBox="0 0 24 24" fill="none"><path d="M3 12l18-8-8 18-2.5-7.5L3 12z" fill="currentColor"/></svg></span>
+            </div>
+          </div>
+        </div>
+        <p style="margin:16px 0 0 0;font-size:12.5px;color:var(--text-secondary);">O campo "Send Message" no rodapé é o `CommentInput` (`variant="compact"`) já existente — nenhum input novo foi criado pra thread de chat.</p>
+      </div>
+
+      <div class="subsection-title">Especificação</div>
+      <table class="spec-table">
+        <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>Bubble radius</td><td class="mono">16px</td><td></td></tr>
+          <tr><td>Bubble — recebida</td><td class="mono">bg --color-background-medium</td><td>`align="left"` (padrão)</td></tr>
+          <tr><td>Bubble — enviada</td><td class="mono">bg --color-accent-primary, texto branco</td><td>`align="right"`</td></tr>
+          <tr><td>Max width</td><td class="mono">280px</td><td>Balão e cabeçalho do remetente</td></tr>
+          <tr><td>Reaction height</td><td class="mono">28px</td><td></td></tr>
+          <tr><td>Reaction selected</td><td class="mono">border --color-accent-primary, bg --color-accent-background</td><td>`selected` prop</td></tr>
+          <tr><td>Photo grid</td><td class="mono">2 colunas, overlay "+N" na última célula</td><td>`maxVisible` (padrão 3)</td></tr>
+        </tbody>
+      </table>
+      <p style="margin:14px 0 0 0;font-size:12px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> "Comment" (thread com resposta) não virou componente à parte — use `ActivityFeed`/`ActivityItem` (agora com `headerAction` pra um menu "⋯"). O composer "Send Message" reaproveita o `CommentInput`.</p>
     </section>
 
 
