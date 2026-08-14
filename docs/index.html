@@ -1314,6 +1314,37 @@
   .stp-v-desc{margin-top:2px;font-size:11.5px;color:var(--text-secondary);}
   .stp-bullet-dot{height:8px;width:8px;border-radius:999px;background:var(--border-light);}
   .stp-bullet-dot.is-active{width:20px;background:var(--accent-primary);}
+
+  /* ---------- TABLE ---------- */
+  .tbl-wrap{width:100%;overflow-x:auto;border:1px solid var(--border-light);border-radius:12px;background:#fff;}
+  .tbl{width:100%;border-collapse:collapse;text-align:left;font-size:13.5px;}
+  .tbl thead{background:var(--bg-light);}
+  .tbl th{padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;color:var(--text-secondary);white-space:nowrap;}
+  .tbl td{padding:14px 16px;vertical-align:middle;color:var(--text-primary);border-top:1px solid var(--border-light);}
+  .tbl tbody tr{transition:background .12s;}
+  .tbl tbody tr:hover{background:var(--bg-light);}
+  .tbl tbody tr.is-selected,.tbl tbody tr.is-selected:hover{background:var(--accent-bg);}
+  .tbl.is-dense th{padding:8px 12px;}
+  .tbl.is-dense td{padding:8px 12px;}
+  .tbl-checkbox-cell{width:40px;padding-left:16px;padding-right:8px;}
+  .tbl-sort{display:inline-flex;align-items:center;gap:5px;color:var(--text-secondary);cursor:pointer;}
+  .tbl-sort.is-active{color:var(--text-primary);}
+  .tbl-sort svg{width:13px;height:13px;}
+  .tbl-name{font-weight:600;color:var(--text-primary);}
+  .tbl-caption{font-size:12px;color:var(--text-secondary);margin-top:1px;}
+  .tbl-cell-people{display:flex;align-items:center;gap:10px;}
+  .tbl-row-actions{display:flex;align-items:center;gap:14px;justify-content:flex-end;opacity:0;transition:opacity .12s;}
+  .tbl tbody tr:hover .tbl-row-actions{opacity:1;}
+  .tbl-link{font-size:12.5px;font-weight:600;color:var(--accent-primary);white-space:nowrap;}
+  .tbl-icon-btn{width:28px;height:28px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-secondary);flex-shrink:0;}
+  .tbl-icon-btn:hover{background:var(--bg-medium);color:var(--text-primary);}
+  .tbl-icon-btn svg{width:15px;height:15px;}
+  .tbl-group-row td{background:var(--bg-light);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.02em;color:var(--text-secondary);padding:9px 16px;border-top:1px solid var(--border-light);}
+  .tbl-group-toggle{display:inline-flex;align-items:center;gap:6px;}
+  .tbl-group-toggle svg{width:12px;height:12px;transition:transform .12s;}
+  .tbl-tooltip-wrap{position:relative;display:inline-flex;}
+  .tbl-tooltip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--bg-contrast);color:#fff;font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:7px;white-space:nowrap;box-shadow:var(--shadow-sm);}
+  .tbl-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-top:1px solid var(--border-light);}
 </style>
 </head>
 <body>
@@ -1380,6 +1411,7 @@
       <a class="nav-link" data-target="side-nav" href="#side-nav"><span class="dot"></span>Side Nav</a>
       <a class="nav-link" data-target="stat" href="#stat"><span class="dot"></span>Stat</a>
       <a class="nav-link" data-target="steps" href="#steps"><span class="dot"></span>Steps</a>
+      <a class="nav-link" data-target="table" href="#table"><span class="dot"></span>Table</a>
     </div>
   </nav>
 
@@ -6082,6 +6114,193 @@
         </tbody>
       </table>
       <p style="margin:14px 0 0 0;font-size:12px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> o átomo "Stepper (M)" (fileira compacta de bolinhas/labels com um chevron à direita, sugerindo um seletor em dropdown) não virou componente — use `BulletSteps` como aproximação mais simples se não precisar do dropdown.</p>
+    </section>
+
+    <section class="section" id="table">
+      <div class="section-head">
+        <div class="section-kicker">Web App Components</div>
+        <h2>Table</h2>
+        <p>Segue o "Base Table Cell Component" do arquivo Figma: em vez de um componente de dados monolítico, `Table` é uma família de peças pequenas e recombináveis (`TableHeaderCell`, `TableCell`, `TableCheckboxCell`, `TableGroupRow`) que você monta como um `&lt;table&gt;` normal. Avatar, Badge, Button, FilterButton, SimplePagination/PaginationSummary e Card não são reimplementados aqui — são compostos dentro das células e no rodapé, exatamente como nos exemplos "Table Examples" e "Card Tables" do arquivo de referência.</p>
+      </div>
+
+      <div class="code-ref">
+        <div class="code-ref-label"><svg viewBox="0 0 24 24" fill="none"><path d="M8 4L2 12l6 8M16 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Implementação — pacote ds-tf-ds</div>
+        <pre><span class="tok-kw">import</span> {
+  Table, TableHeader, TableBody, TableRow,
+  TableHeaderCell, TableCell, TableCheckboxCell, TableGroupRow,
+} <span class="tok-kw">from</span> <span class="tok-str">"ds-tf-ds"</span>;
+
+<span class="tok-tag">&lt;Table</span> dense={<span class="tok-kw">false</span>}<span class="tok-tag">&gt;</span>
+  <span class="tok-tag">&lt;TableHeader&gt;</span>
+    <span class="tok-tag">&lt;tr&gt;</span>
+      <span class="tok-tag">&lt;TableCheckboxCell</span> as=<span class="tok-str">"th"</span> checked={allChecked} onCheckedChange={toggleAll} <span class="tok-tag">/&gt;</span>
+      <span class="tok-tag">&lt;TableHeaderCell</span> sortable sortDirection=<span class="tok-str">"asc"</span><span class="tok-tag">&gt;</span>Name<span class="tok-tag">&lt;/TableHeaderCell&gt;</span>
+      <span class="tok-tag">&lt;TableHeaderCell&gt;</span>Status<span class="tok-tag">&lt;/TableHeaderCell&gt;</span>
+    <span class="tok-tag">&lt;/tr&gt;</span>
+  <span class="tok-tag">&lt;/TableHeader&gt;</span>
+  <span class="tok-tag">&lt;TableBody&gt;</span>
+    <span class="tok-tag">&lt;TableGroupRow</span> label=<span class="tok-str">"Design Team"</span> colSpan={3} <span class="tok-tag">/&gt;</span>
+    <span class="tok-tag">&lt;TableRow</span> selected<span class="tok-tag">&gt;</span>
+      <span class="tok-tag">&lt;TableCheckboxCell</span> checked <span class="tok-tag">/&gt;</span>
+      <span class="tok-tag">&lt;TableCell&gt;</span>Carla Westervelt<span class="tok-tag">&lt;/TableCell&gt;</span>
+      <span class="tok-tag">&lt;TableCell&gt;&lt;Badge</span> tone=<span class="tok-str">"success"</span> appearance=<span class="tok-str">"subtle"</span><span class="tok-tag">&gt;</span>Active<span class="tok-tag">&lt;/Badge&gt;&lt;/TableCell&gt;</span>
+    <span class="tok-tag">&lt;/TableRow&gt;</span>
+  <span class="tok-tag">&lt;/TableBody&gt;</span>
+<span class="tok-tag">&lt;/Table&gt;</span></pre>
+      </div>
+      <p style="margin:-16px 0 24px 0;font-size:12px;color:var(--text-secondary);">`dense` no `Table` raiz propaga pra todo `TableCell`/`TableHeaderCell` via context (mesmo mecanismo do `appearance`/`size` em `Breadcrumbs`) — uma célula específica pode sobrescrever com sua própria prop `dense`.</p>
+
+      <div class="subsection-title">Table Example</div>
+      <div class="component-demo">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th class="tbl-checkbox-cell"><span class="checkbox"></span></th>
+                <th><span class="tbl-sort is-active">Name<svg viewBox="0 0 24 24" fill="none"><path d="M8 9l4-4 4 4M8 15l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></th>
+                <th>Status</th>
+                <th>Team</th>
+                <th style="text-align:right;">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="is-selected">
+                <td class="tbl-checkbox-cell"><span class="checkbox checkbox--filled"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
+                <td>
+                  <div class="tbl-cell-people">
+                    <span class="avatar avatar--circular avatar--sm avatar--initials"><span>CW</span></span>
+                    <div><div class="tbl-name">Carla Westervelt</div><div class="tbl-caption">@carla</div></div>
+                  </div>
+                </td>
+                <td><span class="badge badge--sm badge--subtle badge--success">Active</span></td>
+                <td>
+                  <div class="tbl-tooltip-wrap">
+                    <span class="badge badge--sm badge--outline badge--neutral">Design +2</span>
+                    <span class="tbl-tooltip">Design, Product, Growth</span>
+                  </div>
+                </td>
+                <td>
+                  <div class="tbl-row-actions">
+                    <span class="tbl-icon-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="tbl-icon-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="tbl-checkbox-cell"><span class="checkbox"></span></td>
+                <td>
+                  <div class="tbl-cell-people">
+                    <span class="avatar avatar--circular avatar--sm avatar--initials"><span>JW</span></span>
+                    <div><div class="tbl-name">Jonas Weber</div><div class="tbl-caption">@jonasw</div></div>
+                  </div>
+                </td>
+                <td><span class="badge badge--sm badge--subtle badge--warning">Invited</span></td>
+                <td><span class="badge badge--sm badge--outline badge--neutral">Engineering</span></td>
+                <td>
+                  <div class="tbl-row-actions">
+                    <span class="tbl-icon-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4 12.5-12.5z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="tbl-icon-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">Avatar+nome+caption e o badge de status são só `Avatar`/`Badge` de verdade dentro de um `TableCell`. Os ícones de editar/excluir aparecem no hover via `group-hover` no `TableRow` (`ds-tf-table-row` já é um `group`) — nenhuma prop nova precisa existir pra isso.</p>
+      </div>
+
+      <div class="subsection-title">Grouped Rows — hover-reveal actions</div>
+      <div class="component-demo">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th class="tbl-checkbox-cell"><span class="checkbox"></span></th>
+                <th>Name</th>
+                <th style="text-align:right;">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="tbl-group-row"><td colspan="3"><span class="tbl-group-toggle"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Design Team</span></td></tr>
+              <tr>
+                <td class="tbl-checkbox-cell"><span class="checkbox"></span></td>
+                <td>
+                  <div class="tbl-cell-people">
+                    <span class="avatar avatar--circular avatar--sm avatar--initials"><span>NP</span></span>
+                    <div class="tbl-name">Nadia Park</div>
+                  </div>
+                </td>
+                <td><div class="tbl-row-actions"><span class="tbl-link">View</span><span class="tbl-link">Edit</span></div></td>
+              </tr>
+              <tr class="tbl-group-row"><td colspan="3"><span class="tbl-group-toggle"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Engineering</span></td></tr>
+              <tr>
+                <td class="tbl-checkbox-cell"><span class="checkbox"></span></td>
+                <td>
+                  <div class="tbl-cell-people">
+                    <span class="avatar avatar--circular avatar--sm avatar--initials"><span>RS</span></span>
+                    <div class="tbl-name">Ravi Sharma</div>
+                  </div>
+                </td>
+                <td><div class="tbl-row-actions"><span class="tbl-link">View</span><span class="tbl-link">Edit</span></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">`TableGroupRow` é uma `&lt;tr&gt;` de largura total com `colSpan` — cada seção ("Design Team", "Engineering", "Management") é só uma `TableGroupRow` seguida de `TableRow`s normais. Colapsar/expandir é estado do seu app (renderizar ou não as linhas seguintes); o componente não guarda esse estado sozinho.</p>
+      </div>
+
+      <div class="subsection-title">Card Table — dense</div>
+      <div class="component-demo">
+        <div class="crd-card" style="max-width:520px;">
+          <div class="crd-header">
+            <div><div class="crd-header-title">Team Members</div><div class="crd-header-desc">24 no total</div></div>
+            <div class="crd-header-actions">
+              <div class="crd-search"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Buscar</div>
+              <span class="crd-menu"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="5" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="19" r="1.6" fill="currentColor"/></svg></span>
+            </div>
+          </div>
+          <table class="tbl is-dense">
+            <thead>
+              <tr><th class="tbl-checkbox-cell"><span class="checkbox"></span></th><th>Name</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tbl-checkbox-cell"><span class="checkbox"></span></td>
+                <td><div class="tbl-cell-people"><span class="avatar avatar--circular avatar--xs avatar--initials"><span>LM</span></span><span class="tbl-name">Liu Meng</span></div></td>
+                <td><span class="badge badge--sm badge--subtle badge--success">Active</span></td>
+              </tr>
+              <tr>
+                <td class="tbl-checkbox-cell"><span class="checkbox"></span></td>
+                <td><div class="tbl-cell-people"><span class="avatar avatar--circular avatar--xs avatar--initials"><span>AF</span></span><span class="tbl-name">Amara Fall</span></div></td>
+                <td><span class="badge badge--sm badge--subtle badge--error">Suspended</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="tbl-footer">
+            <span class="pgn-summary">Mostrando <strong>1</strong>–<strong>2</strong> de <strong>24</strong></span>
+            <div style="display:flex;gap:6px;">
+              <span class="pgn-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="pgn-arrow"><svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
+          </div>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">"Table Inside a Card": `CardHeader` (com `crd-search`/`crd-sort`/menu reais) por cima, `Table dense` no meio, `PaginationSummary` + `SimplePagination` (variant="icon") no rodapé — três componentes existentes, zero markup novo dedicado a "Card Table".</p>
+      </div>
+
+      <div class="subsection-title">Especificação</div>
+      <table class="spec-table">
+        <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
+        <tbody>
+          <tr><td>Cell padding (default)</td><td class="mono">16px horizontal / 14px vertical</td><td></td></tr>
+          <tr><td>Cell padding (dense)</td><td class="mono">12px horizontal / 8px vertical</td><td>`dense` no `Table` ou por célula</td></tr>
+          <tr><td>Header</td><td class="mono">bg --color-background-light, 11px uppercase, 700</td><td></td></tr>
+          <tr><td>Wrapper</td><td class="mono">radius 12px, border 1px --color-border-light</td><td>`overflow-x:auto` p/ tabelas largas</td></tr>
+          <tr><td>Row hover</td><td class="mono">bg --color-background-light</td><td>Selecionada usa --color-accent-bg</td></tr>
+          <tr><td>Row actions</td><td class="mono">opacity 0 → 1 no hover da linha</td><td>via `group`/`group-hover` no `TableRow`</td></tr>
+          <tr><td>Checkbox cell</td><td class="mono">40px, `Checkbox` real</td><td>`TableCheckboxCell as="th"` no header</td></tr>
+        </tbody>
+      </table>
+      <p style="margin:14px 0 0 0;font-size:12px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> o painel "Notes" do Figma (guia visual de como montar linhas com Auto-Layout) é documentação de processo, não um componente — nenhuma peça de UI corresponde a ele. Colapsar/expandir grupos e o tooltip sobre o badge "+N" também não são estado interno do `Table`; monte com seu próprio estado + o `Tooltip` real do pacote se precisar de posicionamento automático.</p>
     </section>
 
 

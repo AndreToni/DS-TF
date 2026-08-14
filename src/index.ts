@@ -36,6 +36,7 @@ export * from "./components/SlideOver";
 export * from "./components/Stat";
 export * from "./components/Steps";
 export * from "./components/Switch";
+export * from "./components/Table";
 export * from "./components/Tabs";
 export * from "./components/TextArea";
 export * from "./components/TextField";
