@@ -10,6 +10,10 @@ export interface NavItemProps {
   count?: number | string;
   /** Tone for the `count` badge — e.g. `"error"` for an urgent/unread count. @default "neutral" */
   countTone?: BadgeTone;
+  /** Muted keyboard-shortcut chip on the right (e.g. `"⌘1"`) — a plain key
+   * cap, visually distinct from the colored `count` badge. Ignored if
+   * `count` is also set (they'd collide in the same trailing slot). */
+  shortcut?: ReactNode;
   /** Small "New" tag next to the label. */
   isNew?: boolean;
   /** Secondary line under the label — switches to the "mega item" layout (icon top-aligned, description below label). */
@@ -38,6 +42,7 @@ export interface NavItemProps {
  * @example
  * <NavItem icon={<HomeIcon />} label="Dashboard" selected />
  * <NavItem label="Notifications" count={4} />
+ * <NavItem icon={<SearchIcon />} label="Quick Search" shortcut="⌘1" />
  * <NavItem
  *   icon={<TeamIcon />}
  *   label="Team"
@@ -53,6 +58,7 @@ export function NavItem({
   label,
   count,
   countTone = "neutral",
+  shortcut,
   isNew,
   description,
   selected,
@@ -140,10 +146,18 @@ export function NavItem({
             {count}
           </Badge>
         )}
+        {count == null && shortcut && (
+          <span className="ds-tf-nav-item-shortcut shrink-0 rounded-md bg-surface-medium px-1.5 py-0.5 font-mono text-[11px] font-semibold text-ink-secondary">
+            {shortcut}
+          </span>
+        )}
         {expandable && <ChevronIcon expanded={!!expanded} />}
       </Comp>
       {expandable && expanded && children && (
-        <div className="ds-tf-nav-item-children flex flex-col gap-0.5 py-0.5 pl-7">{children}</div>
+        <div className="ds-tf-nav-item-children relative flex flex-col gap-0.5 py-0.5 pl-7">
+          <div className="ds-tf-nav-item-connector absolute bottom-1 left-[19px] top-0 w-px bg-line-light" />
+          {children}
+        </div>
       )}
     </div>
   );

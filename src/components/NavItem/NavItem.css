@@ -37,3 +37,25 @@
 .ds-tf-nav-item[data-selected="true"] .ds-tf-nav-item-chevron {
   color: inherit;
 }
+
+/* Nested children: a continuous connector line down the group, with a
+   solid accent segment behind whichever nested item is selected — matches
+   the "Projects" sub-nav pattern from the design reference. */
+.ds-tf-nav-item-children > .ds-tf-nav-item-wrap {
+  position: relative;
+}
+
+.ds-tf-nav-item-children > .ds-tf-nav-item-wrap::before {
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 2px;
+  bottom: 2px;
+  width: 2px;
+  border-radius: 1px;
+  background: transparent;
+}
+
+.ds-tf-nav-item-children > .ds-tf-nav-item-wrap:has(> .ds-tf-nav-item[data-selected="true"])::before {
+  background: var(--color-accent-primary);
+}

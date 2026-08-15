@@ -665,6 +665,12 @@
   .nvi-desc{font-size:11.5px;color:var(--text-secondary);line-height:1.4;padding-left:28px;}
   .nvi-group-label{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-secondary);padding:10px 12px 4px 12px;}
   .nvi-item.is-link{color:var(--accent-primary);font-weight:600;}
+  .nvi-shortcut{flex-shrink:0;padding:2px 6px;border-radius:6px;background:var(--bg-medium);color:var(--text-secondary);font-family:ui-monospace,monospace;font-size:11px;font-weight:600;}
+  .nvi-children{position:relative;display:flex;flex-direction:column;gap:2px;padding:2px 0 2px 28px;}
+  .nvi-children-connector{position:absolute;left:19px;top:0;bottom:8px;width:1px;background:var(--border-light);}
+  .nvi-children-item{position:relative;}
+  .nvi-children-item::before{content:'';position:absolute;left:-9px;top:2px;bottom:2px;width:2px;border-radius:1px;background:transparent;}
+  .nvi-children-item.is-selected::before{background:var(--accent-primary);}
 
   /* ---------- DIALOG ---------- */
   .dlg-stage{background:#101A23;border-radius:12px;padding:32px;display:flex;justify-content:center;align-items:flex-start;flex:1;min-width:280px;}
@@ -984,6 +990,7 @@
   .code-ref .tok-kw{color:#C792EA;}
   .code-ref .tok-str{color:#8BD5A0;}
   .code-ref .tok-tag{color:#7DA6FF;}
+  .code-ref .tok-comment{color:#6B7280;}
   .code-ref .tok-com{color:#6C6F76;}
 
   /* ---------- THEME TOGGLE ---------- */
@@ -1246,20 +1253,44 @@
   .shd-card{border:1px solid var(--border-light);border-radius:12px;padding:16px;background:#fff;}
 
   /* ---------- SIDEBAR SWITCHER / SIDE NAV ---------- */
-  .sdw-trigger{display:flex;align-items:center;gap:10px;width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid transparent;background:transparent;text-align:left;box-sizing:border-box;}
+  .sdw-trigger{display:flex;align-items:center;gap:12px;width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid transparent;background:transparent;text-align:left;box-sizing:border-box;}
   .sdw-trigger:hover{background:var(--bg-medium);}
   .sdw-trigger.is-selected{border-color:var(--accent-primary);background:#fff;}
-  .sdw-swatch{width:28px;height:28px;border-radius:6px;background:var(--bg-medium);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);}
-  .sdw-swatch svg{width:16px;height:16px;}
-  .sdw-title{font-size:13px;font-weight:600;color:var(--text-primary);}
-  .sdw-subtitle{font-size:11.5px;color:var(--text-secondary);}
-  .sdw-trailing{width:18px;height:18px;color:var(--text-secondary);flex-shrink:0;}
+  .sdw-swatch{width:44px;height:44px;border-radius:8px;background:var(--accent-bg);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);}
+  .sdw-swatch svg{width:22px;height:22px;}
+  .sdw-swatch.tone-success{background:#D1FAE5;}
+  .sdw-swatch.tone-neutral{background:var(--bg-medium);}
+  .sdw-title{font-size:14px;font-weight:600;color:var(--text-primary);}
+  .sdw-subtitle{font-size:12px;color:var(--text-secondary);}
+  .sdw-trailing{width:20px;height:20px;color:var(--text-secondary);flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;}
+  .sdw-trailing.is-open svg{transform:rotate(180deg);}
+  .sdw-trailing svg{transition:transform .15s ease;}
   .sdw-rail{display:flex;flex-direction:column;align-items:center;gap:4px;width:52px;padding:10px 8px;border:1px solid var(--border-light);border-radius:12px;background:#fff;flex-shrink:0;}
   .sdw-rail-btn{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--text-secondary);flex-shrink:0;}
   .sdw-rail-btn svg{width:17px;height:17px;}
   .sdw-rail-btn.is-selected{background:var(--accent-bg);color:var(--accent-primary);}
-  .sdw-shell{width:240px;border:1px solid var(--border-light);border-radius:14px;background:#fff;padding:10px;display:flex;flex-direction:column;gap:2px;flex-shrink:0;}
+  .sdw-rail-divider{width:22px;height:1px;background:var(--border-light);margin:4px 0;flex-shrink:0;}
+  .sdw-shell{width:250px;border:1px solid var(--border-light);border-radius:14px;background:#fff;padding:10px;display:flex;flex-direction:column;gap:2px;flex-shrink:0;}
   .sdw-shell-footer{margin-top:auto;padding-top:8px;display:flex;flex-direction:column;gap:2px;}
+  .sdw-header-btn{width:26px;height:26px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-secondary);flex-shrink:0;}
+  .sdw-header-btn:hover{background:var(--bg-medium);}
+  .sdw-header-btn svg{width:15px;height:15px;}
+  .sdw-menu-panel{width:280px;background:#fff;border:1px solid var(--border-light);border-radius:12px;box-shadow:var(--shadow-md);padding:8px;display:flex;flex-direction:column;gap:2px;box-sizing:border-box;}
+  .sdw-menu-header{display:flex;align-items:center;gap:12px;padding:8px 6px 12px;}
+  .sdw-upsell{padding:12px 6px;font-size:13px;line-height:1.5;color:var(--text-secondary);}
+  .sdw-upsell a{display:inline-block;margin-top:8px;font-size:12.5px;font-weight:700;color:var(--accent-primary);text-decoration:none;}
+  .sdw-menu-row{display:block;width:100%;padding:9px 10px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--text-primary);text-align:left;background:transparent;text-decoration:none;box-sizing:border-box;}
+  .sdw-menu-row:hover{background:var(--bg-medium);}
+  .sdw-menu-row.is-hover{background:var(--bg-medium);}
+  .sdw-menu-row.is-selected{background:var(--bg-medium);font-weight:600;}
+  .sdw-menu-row-icon{display:inline-flex;align-items:center;gap:8px;}
+  .sdw-menu-row-icon svg{width:16px;height:16px;flex-shrink:0;}
+  .sdw-select-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;font-size:13.5px;color:var(--text-primary);cursor:pointer;}
+  .sdw-select-item:hover,.sdw-select-item.is-hover{background:var(--bg-medium);}
+  .sdw-select-item.is-active{color:var(--accent-primary);font-weight:600;background:var(--accent-bg);}
+  .sdw-select-item-name{font-weight:600;flex-shrink:0;}
+  .sdw-select-item .sdw-select-item-name{font-weight:600;}
+  .sdw-select-item-handle{color:var(--text-secondary);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
   /* ---------- STAT ---------- */
   .stc-card{background:#fff;border:1px solid var(--border-light);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;}
@@ -5646,128 +5677,185 @@
       <div class="section-head">
         <div class="section-kicker">Web App Components</div>
         <h2>Side Nav</h2>
-        <p>A barra lateral completa é, quase toda, composição do que já existe: `NavMenu`/`NavGroup`/`NavItem` (grupos, badges, itens aninhados), `TextField` (busca), `ActionPanel` + `ProgressBar` (card de "storage quase cheio"), `Avatar`, e o `FlyoutMenu` já usado no Header. As duas peças genuinamente novas são o `SidebarSwitcher` (gatilho do dropdown de time/conta) e o `SidebarRailButton` (ícone só, pra barra colapsada).</p>
+        <p>Revisado direto contra o arquivo Figma (nodes do Workspace/Team Switcher e das quatro montagens de sidebar). O arquivo real separa dois tipos de dropdown no mesmo componente — `dropdownType="Select"` (lista simples, trocar de conta) e `dropdownType="Menu"` (painel rico, com cabeçalho repetido, upsell e ações) — então `SidebarSwitcher.trailingIcon` ganhou um terceiro valor, `"chevron"`, além de `"sort"` e `"kebab"`, mais `iconTone` (`"accent"` azul \| `"success"` verde) pro chip de 44px. `NavItem` também ganhou `shortcut` (chip "⌘1") e um conector vertical nos itens aninhados (`children`), incluindo o segmento azul sólido atrás do item ativo — visto nos exemplos "Projects" com Archive/Ongoing/Backlog. O resto continua composição: `NavMenu`/`NavGroup`/`NavItem`, `TextField` (busca), `ActionPanel` + `ProgressBar` (storage), `Avatar`, e o `FlyoutMenu` do Header.</p>
       </div>
 
       <div class="code-ref">
         <div class="code-ref-label"><svg viewBox="0 0 24 24" fill="none"><path d="M8 4L2 12l6 8M16 4l6 8-6 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Implementação — pacote ds-tf-ds</div>
-        <pre><span class="tok-kw">import</span> { NavMenu, NavGroup, NavItem, SidebarSwitcher, SidebarRailButton, FlyoutMenu, FlyoutMenuTrigger, FlyoutMenuContent, FlyoutMenuItem, Avatar } <span class="tok-kw">from</span> <span class="tok-str">"ds-tf-ds"</span>;
+        <pre><span class="tok-kw">import</span> { NavMenu, NavGroup, NavItem, SidebarSwitcher, SidebarRailButton, FlyoutMenu, FlyoutMenuTrigger, FlyoutMenuContent, FlyoutMenuItem, Divider, Button, Avatar } <span class="tok-kw">from</span> <span class="tok-str">"ds-tf-ds"</span>;
 
-<span class="tok-tag">&lt;FlyoutMenu&gt;</span>
+<span class="tok-comment">// "Select" — lista simples de contas</span>
+<span class="tok-tag">&lt;FlyoutMenu</span> open={open} onOpenChange={setOpen}<span class="tok-tag">&gt;</span>
   <span class="tok-tag">&lt;FlyoutMenuTrigger</span> asChild<span class="tok-tag">&gt;</span>
-    <span class="tok-tag">&lt;SidebarSwitcher</span> icon={<span class="tok-tag">&lt;TeamIcon /&gt;</span>} title=<span class="tok-str">"Google Team"</span> subtitle=<span class="tok-str">"@google"</span> <span class="tok-tag">/&gt;</span>
+    <span class="tok-tag">&lt;SidebarSwitcher</span> icon={<span class="tok-tag">&lt;DiamondIcon /&gt;</span>} title=<span class="tok-str">"Everest Team"</span> subtitle=<span class="tok-str">"@everest"</span> trailingIcon=<span class="tok-str">"sort"</span> selected={open} <span class="tok-tag">/&gt;</span>
   <span class="tok-tag">&lt;/FlyoutMenuTrigger&gt;</span>
   <span class="tok-tag">&lt;FlyoutMenuContent</span> align=<span class="tok-str">"start"</span> size=<span class="tok-str">"sm"</span><span class="tok-tag">&gt;</span>
     <span class="tok-tag">&lt;FlyoutMenuItem</span> icon={<span class="tok-tag">&lt;TwitterIcon /&gt;</span>} title=<span class="tok-str">"Twitter"</span> description=<span class="tok-str">"@twitter"</span> <span class="tok-tag">/&gt;</span>
-    <span class="tok-tag">&lt;FlyoutMenuItem</span> icon={<span class="tok-tag">&lt;GoogleIcon /&gt;</span>} title=<span class="tok-str">"Google"</span> description=<span class="tok-str">"@google"</span> <span class="tok-tag">/&gt;</span>
+    <span class="tok-tag">&lt;FlyoutMenuItem</span> title=<span class="tok-str">"Personal"</span> <span class="tok-tag">/&gt;</span>
   <span class="tok-tag">&lt;/FlyoutMenuContent&gt;</span>
 <span class="tok-tag">&lt;/FlyoutMenu&gt;</span>
 
-<span class="tok-tag">&lt;NavMenu</span>
-  header={<span class="tok-tag">&lt;/* team switcher acima */&gt;</span>}
-  footer={<span class="tok-tag">&lt;/* user switcher fixado embaixo */&gt;</span>}
-<span class="tok-tag">&gt;</span>
-  <span class="tok-tag">&lt;NavGroup</span> label=<span class="tok-str">"Workspace"</span><span class="tok-tag">&gt;</span>
-    <span class="tok-tag">&lt;NavItem</span> label=<span class="tok-str">"Ideas"</span> count={4} <span class="tok-tag">/&gt;</span>
-  <span class="tok-tag">&lt;/NavGroup&gt;</span>
-  <span class="tok-tag">&lt;NavGroup</span> label=<span class="tok-str">"Private"</span><span class="tok-tag">&gt;</span>
-    <span class="tok-tag">&lt;NavItem</span> label=<span class="tok-str">"Calendar"</span> count={20} countTone=<span class="tok-str">"error"</span> <span class="tok-tag">/&gt;</span>
-  <span class="tok-tag">&lt;/NavGroup&gt;</span>
-<span class="tok-tag">&lt;/NavMenu&gt;</span></pre>
+<span class="tok-comment">// "Menu" — ações + upsell (linhas simples, não FlyoutMenuItem)</span>
+<span class="tok-tag">&lt;FlyoutMenuContent</span> footer={<span class="tok-tag">&lt;Button</span> variant=<span class="tok-str">"transparent"</span> size=<span class="tok-str">"sm"</span><span class="tok-tag">&gt;</span>Log Out<span class="tok-tag">&lt;/Button&gt;</span>}<span class="tok-tag">&gt;</span>
+  <span class="tok-tag">&lt;Divider /&gt;</span>
+  <span class="tok-tag">&lt;p&gt;</span>Consider upgrading to our Premium Plan…<span class="tok-tag">&lt;/p&gt;</span>
+  <span class="tok-tag">&lt;button&gt;</span>Invite Members<span class="tok-tag">&lt;/button&gt;</span>
+<span class="tok-tag">&lt;/FlyoutMenuContent&gt;</span>
+
+<span class="tok-comment">// NavItem: atalho de teclado + sub-itens com conector</span>
+<span class="tok-tag">&lt;NavItem</span> icon={<span class="tok-tag">&lt;SearchIcon /&gt;</span>} label=<span class="tok-str">"Quick Search"</span> shortcut=<span class="tok-str">"⌘1"</span> <span class="tok-tag">/&gt;</span>
+<span class="tok-tag">&lt;NavItem</span> label=<span class="tok-str">"Projects"</span> expandable expanded onExpandedChange={setOpen}<span class="tok-tag">&gt;</span>
+  <span class="tok-tag">&lt;NavItem</span> label=<span class="tok-str">"Archive"</span> count={4} <span class="tok-tag">/&gt;</span>
+  <span class="tok-tag">&lt;NavItem</span> label=<span class="tok-str">"Ongoing"</span> selected <span class="tok-tag">/&gt;</span>
+<span class="tok-tag">&lt;/NavItem&gt;</span></pre>
       </div>
-      <p style="margin:-16px 0 24px 0;font-size:12px;color:var(--text-secondary);">`SidebarSwitcher` não abre o dropdown sozinho — ele é feito pra ir dentro de um `FlyoutMenuTrigger asChild`, reaproveitando o popover que já existe em vez de um segundo dropdown do zero.</p>
+      <p style="margin:-16px 0 24px 0;font-size:12px;color:var(--text-secondary);">`SidebarSwitcher` não abre o dropdown sozinho — vai dentro de `FlyoutMenuTrigger asChild`. Pra `trailingIcon="chevron"`, passe o mesmo `open` do `FlyoutMenu` pra ele girar junto.</p>
 
-      <div class="subsection-title">Switcher — time e conta</div>
+      <div class="subsection-title">Switcher — "Select" (trocar de conta)</div>
       <div class="component-demo">
-        <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start;">
-          <div style="width:220px;">
-            <button class="sdw-trigger is-selected">
-              <span class="sdw-swatch" style="background:#D1FAE5;color:#367C50;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.8"/></svg></span>
-              <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Google Team</span><span class="sdw-subtitle" style="display:block;">@google</span></span>
-              <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><path d="M8 9l4-4 4 4M8 15l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            </button>
-            <nav class="nvi-menu" style="width:100%;margin-top:8px;box-sizing:border-box;">
-              <a class="nvi-item"><span class="nvi-label">Twitter</span><span class="sdw-subtitle" style="margin-left:auto;">@twitter</span></a>
-              <a class="nvi-item"><span class="nvi-label">Google</span><span class="sdw-subtitle" style="margin-left:auto;">@google</span></a>
-              <a class="nvi-item"><span class="nvi-label">Personal</span></a>
-            </nav>
-            <p style="margin:10px 0 0 0;font-size:12px;color:var(--text-secondary);">Lista simples de contas — cada linha é um `FlyoutMenuItem`.</p>
-          </div>
-
-          <div style="width:230px;">
-            <button class="sdw-trigger">
-              <span class="sdw-swatch" style="background:transparent;padding:0;overflow:hidden;"><img src="https://i.pravatar.cc/56?img=47" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" /></span>
-              <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Kianna Press</span><span class="sdw-subtitle" style="display:block;">@kianna</span></span>
-              <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
-            </button>
-            <nav class="nvi-menu" style="width:100%;margin-top:8px;box-sizing:border-box;">
-              <a class="nvi-item">Invite Members</a>
-              <a class="nvi-item">Preferences</a>
-              <a class="nvi-item">Tools</a>
-              <a class="nvi-item">Log Out</a>
-            </nav>
-            <p style="margin:10px 0 0 0;font-size:12px;color:var(--text-secondary);">Menu de ações — `avatar` no lugar de `icon`, `trailingIcon="kebab"`.</p>
+        <div style="width:230px;">
+          <button class="sdw-trigger is-selected">
+            <span class="sdw-swatch" style="background:#EFF6FF;color:#2563EB;"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l3.5 4H21l-3 5 3 5h-5.5L12 21l-3.5-4H3l3-5-3-5h5.5L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+            <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Everest Team</span><span class="sdw-subtitle" style="display:block;">@everest</span></span>
+            <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><path d="M8 9l4-4 4 4M8 15l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+          <div class="sdw-menu-panel" style="margin-top:8px;padding:4px;box-shadow:none;border-color:var(--border-light);">
+            <div class="sdw-select-item is-active"><span class="sdw-select-item-name">Twitter</span><span class="sdw-select-item-handle">@twitter</span></div>
+            <div class="sdw-select-item"><span class="sdw-select-item-name">Google</span><span class="sdw-select-item-handle">@google</span></div>
+            <div class="sdw-select-item"><span class="sdw-select-item-name">Personal</span></div>
           </div>
         </div>
+        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">`trailingIcon="sort"` (setas ↕) — cada linha da lista é um `FlyoutMenuItem` sem `icon`/`description`, ou uma linha simples como aqui. A conta ativa fica com fundo `accent-bg` e texto accent.</p>
+      </div>
+
+      <div class="subsection-title">Switcher — "Menu" (ações do workspace)</div>
+      <div class="component-demo">
+        <div style="width:250px;">
+          <button class="sdw-trigger is-selected">
+            <span class="sdw-swatch tone-success"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Google team</span><span class="sdw-subtitle" style="display:block;">@google</span></span>
+            <span class="sdw-trailing is-open"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          </button>
+          <div class="sdw-menu-panel" style="margin-top:8px;">
+            <div class="sdw-menu-header">
+              <span class="sdw-swatch tone-success" style="width:40px;height:40px;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.8"/></svg></span>
+              <span><span class="sdw-title" style="display:block;">Google team</span><span class="sdw-subtitle" style="display:block;">@google</span></span>
+            </div>
+            <div class="divider"><span class="divider-line"></span></div>
+            <div class="sdw-upsell">Consider upgrading to our Premium Plan for unlimited projects.<br /><a href="#">Upgrade Now</a></div>
+            <div class="divider"><span class="divider-line"></span></div>
+            <button class="sdw-menu-row is-selected">Invite Members</button>
+            <button class="sdw-menu-row">Preferences</button>
+            <button class="sdw-menu-row">Tools</button>
+            <div class="divider" style="margin-top:4px;"><span class="divider-line"></span></div>
+            <button class="sdw-menu-row"><span class="sdw-menu-row-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Log Out</span></button>
+          </div>
+        </div>
+        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">`trailingIcon="chevron"` gira 180° via a prop `open`. O painel repete o cabeçalho (ícone+título+subtítulo), um bloco de upsell e linhas simples (`&lt;button&gt;` cru, não `FlyoutMenuItem` — não têm ícone/descrição) — composto dentro de `FlyoutMenuContent`, `Log Out` no slot `footer`.</p>
+      </div>
+
+      <div class="subsection-title">Switcher — conta (kebab)</div>
+      <div class="component-demo">
+        <div style="width:230px;">
+          <button class="sdw-trigger is-selected">
+            <span class="sdw-swatch" style="background:transparent;padding:0;overflow:hidden;"><img src="https://i.pravatar.cc/88?img=47" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" /></span>
+            <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Kianna Press</span><span class="sdw-subtitle" style="display:block;">@kianna</span></span>
+            <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
+          </button>
+          <div class="sdw-menu-panel" style="margin-top:8px;box-shadow:none;border-color:var(--border-light);">
+            <button class="sdw-menu-row">Invite Members</button>
+            <button class="sdw-menu-row">Preferences</button>
+            <button class="sdw-menu-row">Tools</button>
+            <div class="divider" style="margin-top:2px;"><span class="divider-line"></span></div>
+            <button class="sdw-menu-row"><span class="sdw-menu-row-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Log Out</span></button>
+          </div>
+        </div>
+        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">Mesmo painel "Menu", sem o cabeçalho repetido e sem upsell — pra esse caso (linha de usuário fixada embaixo do `NavMenu`) `avatar` substitui `icon`, e `trailingIcon="kebab"`.</p>
       </div>
 
       <div class="subsection-title">Rail — barra colapsada</div>
       <div class="component-demo">
         <div class="sdw-rail">
+          <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="sdw-rail-divider"></div>
           <span class="sdw-rail-btn is-selected"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
           <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4a4 4 0 014 4c0 2.5-1.5 3.5-2 5H10c-.5-1.5-2-2.5-2-5a4 4 0 014-4z" stroke="currentColor" stroke-width="1.8"/></svg></span>
           <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8"/></svg></span>
+          <div class="sdw-rail-divider"></div>
           <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M12 20V10M12 10l7 4M12 10L5 14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div class="sdw-rail-divider"></div>
           <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-          <span class="sdw-rail-btn" style="margin-top:auto;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+          <span class="sdw-rail-btn" style="margin-top:auto;"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" fill="var(--bg-medium)" stroke="none"/></svg></span>
         </div>
-        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">Sem container dedicado — é só uma `&lt;div class="flex flex-col gap-1"&gt;` estreita cheia de `SidebarRailButton`s. `selected` marca o item ativo.</p>
+        <p style="margin:14px 0 0 0;font-size:12.5px;color:var(--text-secondary);">Sem container dedicado — uma `&lt;div class="flex flex-col gap-1"&gt;` estreita cheia de `SidebarRailButton`s, com `Divider`s livres agrupando seções (mesmo padrão do menu inteiro). `selected` marca o item ativo; o quadrado apagado no fim é o avatar do usuário colapsado.</p>
       </div>
 
-      <div class="subsection-title">Exemplo montado — completo</div>
+      <div class="subsection-title">Exemplo montado — Workspace</div>
       <div class="component-demo" style="background:transparent;border:none;box-shadow:none;padding:0;">
         <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;">
-          <div class="sdw-shell" style="height:520px;">
-            <div class="hdr-logo" style="padding:6px 4px 10px;"><span class="hdr-logo-mark"></span>orchestra</div>
+          <div class="sdw-shell" style="height:560px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 4px 10px;">
+              <div class="hdr-logo" style="padding:0;"><span class="hdr-logo-mark"></span>orchestra</div>
+              <span class="sdw-header-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
             <button class="sdw-trigger">
-              <span class="sdw-swatch" style="background:#D1FAE5;color:#367C50;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/></svg></span>
+              <span class="sdw-swatch tone-success"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/></svg></span>
               <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Google Team</span><span class="sdw-subtitle" style="display:block;">@google</span></span>
-              <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><path d="M8 9l4-4 4 4M8 15l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
             </button>
+            <div class="divider" style="margin:8px 0;"><span class="divider-line"></span></div>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="nvi-label">Quick Search</span><span class="nvi-shortcut">⌘1</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4a4 4 0 014 4c0 2.5 1.5 3.5 2 5H6c.5-1.5 2-2.5 2-5a4 4 0 014-4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 21h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="nvi-label">All Updates</span><span class="nvi-shortcut">⌘2</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8"/></svg></span><span class="nvi-label">Settings &amp; Members</span><span class="nvi-chevron">⌄</span></a>
             <div class="nvi-group-label" style="padding-top:12px;">Workspace</div>
-            <a class="nvi-item is-selected"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1v-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="nvi-label">Home</span></a>
-            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3 11.2c.6.4 1 1.1 1 1.8h4c0-.7.4-1.4 1-1.8A6 6 0 0012 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="nvi-label">Ideas</span><span class="nvi-count">4</span></a>
-            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8"/></svg></span><span class="nvi-label">Projects</span></a>
-            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="nvi-label">Team</span></a>
+            <a class="nvi-item"><span class="nvi-label">Home</span></a>
+            <a class="nvi-item is-selected"><span class="nvi-label">Ideas</span><span class="badge badge--sm badge--subtle badge--accent" style="margin-left:auto;">4</span></a>
+            <a class="nvi-item"><span class="nvi-label">Projects</span></a>
+            <a class="nvi-item"><span class="nvi-label">Team</span></a>
+            <a class="nvi-item"><span class="nvi-label">Strategy</span></a>
             <div class="nvi-group-label">Private</div>
-            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M3 9h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="nvi-label">Calendar</span><span class="badge badge--sm badge--subtle badge--error" style="margin-left:auto;">20</span></a>
-            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v5h5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="nvi-label">Notes &amp; Drafts</span><span class="nvi-count">4</span></a>
+            <a class="nvi-item"><span class="nvi-label">Calendar</span><span class="badge badge--sm badge--subtle badge--error" style="margin-left:auto;">20</span><span class="nvi-chevron">⌄</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="nvi-label">Notes &amp; Drafts</span><span class="badge badge--sm badge--subtle badge--accent" style="margin-left:auto;">4</span><span class="nvi-chevron">⌄</span></a>
+            <div class="divider" style="margin:8px 0;"><span class="divider-line"></span></div>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg></span><span class="nvi-label">Templates</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4v11M8 11l4 4 4-4M5 20h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nvi-label">Import</span></a>
             <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V4h6v3M6 7l1 13a1 1 0 001 1h8a1 1 0 001-1l1-13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nvi-label">Trash</span></a>
             <div class="sdw-shell-footer">
-              <a class="nvi-item" style="color:var(--accent-primary);font-weight:600;">+ New Page</a>
+              <a class="nvi-item is-link">+ New Page</a>
               <button class="sdw-trigger" style="margin-top:4px;">
-                <span class="sdw-swatch" style="background:transparent;padding:0;overflow:hidden;"><img src="https://i.pravatar.cc/56?img=47" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" /></span>
+                <span class="sdw-swatch" style="background:transparent;padding:0;overflow:hidden;"><img src="https://i.pravatar.cc/88?img=47" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" /></span>
                 <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Kianna Press</span><span class="sdw-subtitle" style="display:block;">@kianna</span></span>
                 <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
               </button>
             </div>
           </div>
 
-          <div class="sdw-rail" style="height:520px;">
-            <span class="sdw-rail-btn is-selected"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <div class="sdw-rail" style="height:560px;">
+            <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <div class="sdw-rail-divider"></div>
+            <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
             <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M12 4a4 4 0 014 4c0 2.5-1.5 3.5-2 5H10c-.5-1.5-2-2.5-2-5a4 4 0 014-4z" stroke="currentColor" stroke-width="1.8"/></svg></span>
-            <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M4 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H6a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8"/></svg></span>
-            <span class="sdw-rail-btn" style="margin-top:auto;"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/></svg></span>
+            <span class="sdw-rail-btn"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg></span>
+            <span class="sdw-rail-btn" style="margin-top:auto;"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" fill="var(--bg-medium)" stroke="none"/></svg></span>
           </div>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">"Quick Search"/"All Updates" usam `shortcut="⌘1"`/`"⌘2"` (`NavItem`), diferente do `count` colorido usado em "Ideas"/"Calendar"/"Notes &amp; Drafts". O switcher do topo usa `trailingIcon="chevron"` (dropdown "Menu"); o de baixo (linha de usuário), `trailingIcon="kebab"`.</p>
+      </div>
 
+      <div class="subsection-title">Exemplo montado — busca + storage</div>
+      <div class="component-demo" style="background:transparent;border:none;box-shadow:none;padding:0;">
+        <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;">
           <div class="sdw-shell" style="height:520px;">
-            <div class="hdr-logo" style="padding:6px 4px 10px;"><span class="hdr-logo-mark"></span>orchestra</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 4px 10px;">
+              <div class="hdr-logo" style="padding:0;"><span class="hdr-logo-mark"></span>orchestra</div>
+              <span class="sdw-header-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            </div>
             <div class="tf-input" style="width:100%;margin-bottom:8px;box-sizing:border-box;"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="tf-value">Search</span></div>
             <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1v-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="nvi-label">Home</span></a>
-            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M12 20V4M20 20v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="nvi-label">Dashboard</span><span class="nvi-count">4</span><span class="nvi-chevron">⌄</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20V10M12 20V4M20 20v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="nvi-label">Dashboard</span><span class="badge badge--sm badge--subtle badge--accent" style="margin-left:auto;">4</span><span class="nvi-chevron">⌄</span></a>
             <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8"/></svg></span><span class="nvi-label">Projects</span><span class="nvi-chevron">⌄</span></a>
             <a class="nvi-item is-selected"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M2 20c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span><span class="nvi-label">Team</span></a>
-            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nvi-label">Reports</span><span class="nvi-count">4</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nvi-label">Reports</span><span class="badge badge--sm badge--subtle badge--accent" style="margin-left:auto;">4</span><span class="nvi-chevron">⌄</span></a>
             <a class="nvi-item is-disabled"><span class="nvi-label">Time Tracking</span></a>
             <a class="nvi-item is-disabled"><span class="nvi-label">Notifications</span></a>
             <a class="nvi-item is-disabled"><span class="nvi-label">Billing</span></a>
@@ -5779,29 +5867,86 @@
                 <a href="#" style="display:block;margin-top:8px;font-size:11.5px;font-weight:600;color:var(--accent-primary);">Upgrade Now</a>
               </div>
               <button class="sdw-trigger" style="margin-top:6px;">
-                <span class="sdw-swatch" style="background:transparent;padding:0;overflow:hidden;"><img src="https://i.pravatar.cc/56?img=47" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" /></span>
+                <span class="sdw-swatch" style="background:transparent;padding:0;overflow:hidden;"><img src="https://i.pravatar.cc/88?img=47" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" /></span>
                 <span style="min-width:0;flex:1;"><span class="sdw-title" style="display:block;">Kianna Press</span><span class="sdw-subtitle" style="display:block;">@kianna</span></span>
                 <span class="sdw-trailing"><svg viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg></span>
               </button>
             </div>
           </div>
         </div>
-        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">O card de armazenamento é um `ActionPanel` com um `ProgressBar` (`label="none"`) dentro do `children` — nenhum card novo foi criado pra isso. Itens muted ("Time Tracking", "Notifications", "Billing") são `NavItem`s com `disabled`.</p>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">O card de armazenamento é um `ActionPanel` com um `ProgressBar` (`label="none"`) dentro do `children`. "Time Tracking"/"Notifications"/"Billing" (sem ícone, cinza, não clicáveis) são `NavItem`s com `disabled` — sem prop nova, o estado já existia.</p>
+      </div>
+
+      <div class="subsection-title">Exemplo montado — navegação aninhada</div>
+      <div class="component-demo" style="background:transparent;border:none;box-shadow:none;padding:0;">
+        <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start;">
+          <div class="sdw-shell" style="height:auto;">
+            <div class="tf-input" style="width:100%;margin-bottom:8px;box-sizing:border-box;"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="tf-value">Search</span></div>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7v8a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1v-8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span><span class="nvi-label">Overview</span></a>
+            <a class="nvi-item is-selected"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="nvi-label">Documentation</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M9 18h6M10 21h4M12 3a6 6 0 00-3 11.2c.6.4 1 1.1 1 1.8h4c0-.7.4-1.4 1-1.8A6 6 0 0012 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="nvi-label">Code Repository</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M4 16l5-5 4 3 7-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nvi-label">Reports</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="7" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg></span><span class="nvi-label">Resources</span></a>
+            <div class="divider" style="margin:8px 0;"><span class="divider-line"></span></div>
+            <div class="nvi-group-label">Getting Started</div>
+            <div class="nvi-children">
+              <div class="nvi-children-connector"></div>
+              <div class="nvi-children-item"><a class="nvi-item is-disabled" style="padding:6px 12px;"><span class="nvi-label">Installation</span></a></div>
+              <div class="nvi-children-item is-selected"><a class="nvi-item is-selected" style="padding:6px 12px;font-weight:600;"><span class="nvi-label">Reporting</span></a></div>
+              <div class="nvi-children-item"><a class="nvi-item is-disabled" style="padding:6px 12px;"><span class="nvi-label">Upgrade Guide</span></a></div>
+              <div class="nvi-children-item"><a class="nvi-item is-disabled" style="padding:6px 12px;"><span class="nvi-label">Dependencies</span></a></div>
+              <div class="nvi-children-item"><a class="nvi-item is-disabled" style="padding:6px 12px;"><span class="nvi-label">Transitions</span></a></div>
+            </div>
+            <div class="nvi-group-label">Resources</div>
+            <div class="nvi-children">
+              <div class="nvi-children-connector"></div>
+              <div class="nvi-children-item"><a class="nvi-item is-disabled" style="padding:6px 12px;"><span class="nvi-label">Assets</span></a></div>
+              <div class="nvi-children-item"><a class="nvi-item is-disabled" style="padding:6px 12px;"><span class="nvi-label">Documentation</span></a></div>
+              <div class="nvi-children-item"><a class="nvi-item is-disabled" style="padding:6px 12px;"><span class="nvi-label">Brand Usage</span></a></div>
+            </div>
+          </div>
+
+          <div class="sdw-shell" style="height:auto;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:6px 4px 10px;">
+              <div class="hdr-logo" style="padding:0;"><span class="hdr-logo-mark"></span>orchestra</div>
+              <span class="sdw-header-btn"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            </div>
+            <div class="tf-input" style="width:100%;margin-bottom:8px;box-sizing:border-box;"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="tf-value">Search</span></div>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg></span><span class="nvi-label">Overview</span></a>
+            <a class="nvi-item is-selected"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" stroke="currentColor" stroke-width="1.8"/></svg></span><span class="nvi-label">Projects</span><span class="nvi-chevron" style="transform:rotate(180deg);display:inline-block;">⌄</span></a>
+            <div class="nvi-children">
+              <div class="nvi-children-connector"></div>
+              <div class="nvi-children-item"><a class="nvi-item is-disabled" style="padding:6px 12px;">Archive<span class="badge badge--sm badge--subtle badge--neutral" style="margin-left:auto;">4</span></a></div>
+              <div class="nvi-children-item is-selected"><a class="nvi-item is-selected" style="padding:6px 12px;font-weight:600;">Ongoing</a></div>
+              <div class="nvi-children-item"><a class="nvi-item is-disabled" style="padding:6px 12px;">Backlog</a></div>
+            </div>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span class="nvi-label">Balance</span></a>
+            <a class="nvi-item"><span class="nvi-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3h7l5 5v13a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span><span class="nvi-label">Documentation</span><span class="badge badge--sm badge--subtle badge--accent" style="margin-left:auto;">4</span></a>
+            <div class="divider" style="margin:8px 0;"><span class="divider-line"></span></div>
+            <a class="nvi-item is-disabled"><span class="nvi-label">Time Tracking</span></a>
+            <a class="nvi-item is-disabled"><span class="nvi-label">Notifications</span></a>
+            <a class="nvi-item is-disabled"><span class="nvi-label">Billing</span></a>
+          </div>
+        </div>
+        <p style="margin:18px 0 0 0;font-size:12.5px;color:var(--text-secondary);">Ambos usam o mesmo `NavItem expandable expanded`: os filhos ganham um conector vertical automático, com um segmento azul sólido atrás de quem estiver `selected` ("Reporting", "Ongoing") — nenhuma prop nova pra isso, é CSS estrutural do próprio `NavItem`.</p>
       </div>
 
       <div class="subsection-title">Especificação</div>
       <table class="spec-table">
         <thead><tr><th>Token</th><th>Valor</th><th>Uso</th></tr></thead>
         <tbody>
-          <tr><td>Switcher swatch</td><td class="mono">28×28px, radius 6px</td><td>`icon`/`avatar` prop</td></tr>
+          <tr><td>Switcher swatch</td><td class="mono">44×44px, radius 8px</td><td>`icon` + `iconTone` ("accent"/"success"/"neutral")</td></tr>
           <tr><td>Switcher selected</td><td class="mono">border 1.5px --color-accent-primary</td><td>`selected` prop</td></tr>
+          <tr><td>Trailing "sort"</td><td class="mono">setas ↕</td><td>dropdown "Select" — lista simples</td></tr>
+          <tr><td>Trailing "chevron"</td><td class="mono">seta única, gira 180°</td><td>dropdown "Menu" — `open` prop rotaciona</td></tr>
+          <tr><td>NavItem shortcut</td><td class="mono">chip mono, bg --color-background-medium</td><td>`shortcut` prop, some se `count` estiver setado</td></tr>
+          <tr><td>Conector aninhado</td><td class="mono">1px --color-border-light, segmento 2px accent no ativo</td><td>automático em `expandable`+`children`</td></tr>
           <tr><td>Rail button</td><td class="mono">34×34px, radius 8px</td><td>`SidebarRailButton`</td></tr>
-          <tr><td>Rail width (doc)</td><td class="mono">52px</td><td>Composição livre, sem prop de largura</td></tr>
           <tr><td>NavMenu footer</td><td class="mono">margin-top: auto</td><td>`footer` prop — sempre fixado embaixo</td></tr>
           <tr><td>Dropdown</td><td class="mono">`FlyoutMenu` (mesmo do Header)</td><td>`SidebarSwitcher` só é o gatilho</td></tr>
         </tbody>
       </table>
-      <p style="margin:14px 0 0 0;font-size:12px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> nenhum componente novo de "sidebar shell" foi criado — a barra inteira é `NavMenu` com `header`/`footer`, exatamente como qualquer outra composição no DS-TF.</p>
+      <p style="margin:14px 0 0 0;font-size:12px;color:var(--text-secondary);"><strong>Fora de escopo nesta versão:</strong> nenhum componente novo de "sidebar shell" ou de "menu de workspace" foi criado — a barra inteira é `NavMenu` com `header`/`footer`, e o painel "Menu" do switcher é `FlyoutMenuContent` com `children`/`footer` livres. A abertura "pra cima" quando o switcher está perto do fim da tela (visível nos prints do usuário/conta) é posicionamento automático do Radix Popover por trás do `FlyoutMenu` — não precisa de prop.</p>
     </section>
 
     <section class="section" id="stat">
